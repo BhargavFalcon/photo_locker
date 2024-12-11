@@ -177,78 +177,73 @@ class SettingScreenView extends GetView<SettingScreenController> {
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return Obx(() {
-          return AlertDialog(
-            contentPadding: EdgeInsets.zero,
-            titlePadding: EdgeInsets.zero,
-            insetPadding: EdgeInsets.zero,
-            actionsPadding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          titlePadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.zero,
+          actionsPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
-            content: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text('Draw Pattern here',
-                        style: TextStyle(color: Colors.black, fontSize: 18)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text('Draw Pattern here',
+                      style: TextStyle(color: Colors.black, fontSize: 18)),
+                ),
+                Spacing.height(20),
+                Container(
+                  height: 200,
+                  width: 200,
+                  child: PatternLock(
+                    selectedColor: Colors.blue,
+                    pointRadius: 8,
+                    showInput: true,
+                    dimension: 3,
+                    relativePadding: 0.1,
+                    selectThreshold: 30,
+                    fillPoints: true,
+                    notSelectedColor: Colors.black,
+                    onInputComplete: (List<int> input) {
+                      if (controller.lockModel.value.lockValue!.join("") ==
+                          input.join("")) {
+                        Get.back();
+                        Get.toNamed(Routes.CHANGE_PASSCODE_SCREEN);
+                      } else {
+                        Get.snackbar('Error', 'Pattern does not match');
+                      }
+                    },
                   ),
-                  Spacing.height(20),
-                  Container(
-                    height: 200,
-                    width: 200,
-                    child: PatternLock(
-                      selectedColor: Colors.blue,
-                      pointRadius: 8,
-                      showInput: true,
-                      dimension: 3,
-                      relativePadding: 0.1,
-                      selectThreshold: 30,
-                      fillPoints: true,
-                      notSelectedColor: Colors.black,
-                      onInputComplete: (List<int> input) {
-                        if (controller.pattern.join("") == input.join("")) {
-                          Get.back();
-                          Get.toNamed(Routes.CHANGE_PASSCODE_SCREEN);
-                        } else {
-                          Get.snackbar('Error', 'Pattern does not match');
-                          controller.pattern.clear();
-                        }
-                      },
-                    ),
-                  ),
-                  Spacing.height(20),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(5),
-                          ),
-                        ),
-                        height: 45,
-                        child: Center(
-                          child: Text('Cancel',
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black)),
-                        ),
+                ),
+                Spacing.height(20),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(5),
                       ),
                     ),
-                  )
-                ],
-              ),
+                    height: 45,
+                    child: Center(
+                      child: Text('Cancel',
+                          style: TextStyle(fontSize: 18, color: Colors.black)),
+                    ),
+                  ),
+                )
+              ],
             ),
-          );
-        });
+          ),
+        );
       },
     );
   }

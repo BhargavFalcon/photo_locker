@@ -10,7 +10,6 @@ class SettingScreenController extends GetxController {
   Rx<LockModel> lockModel = LockModel().obs;
   AuthBioMetricWidget authBioMetricWidget = AuthBioMetricWidget();
   RxBool passwordVisible = false.obs;
-  RxList<int> pattern = <int>[].obs;
   Rx<TextEditingController> passwordController = TextEditingController().obs;
   @override
   void onInit() {
