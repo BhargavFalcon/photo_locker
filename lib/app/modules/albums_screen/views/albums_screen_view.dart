@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:photo_locker/app/routes/app_pages.dart';
+import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
 import 'package:photo_locker/main.dart';
 import 'package:photo_locker/model/albumModel.dart';
@@ -14,6 +14,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
 
   @override
   Widget build(BuildContext context) {
+    MySize().init(context);
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
