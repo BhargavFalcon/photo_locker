@@ -128,7 +128,7 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   controller.initAsync().then(
                     (value) {
                       showAlbumPickerBottom(context: context);
