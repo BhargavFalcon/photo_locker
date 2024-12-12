@@ -46,11 +46,19 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                 ],
               ),
               floatingActionButton: FloatingActionButton(
+                elevation: 0,
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
                 onPressed: () {
-                  controller.initAsync();
-                  showAlbumPickerBottom(context: context);
+                  controller.initAsync().then(
+                    (value) {
+                      showAlbumPickerBottom(context: context);
+                    },
+                  );
                 },
-                child: Icon(Icons.add),
+                child: Icon(Icons.add, color: Colors.white),
               ),
             ),
           );
@@ -61,58 +69,78 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
 
   showAlbumPickerBottom({required BuildContext context}) {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      backgroundColor: Colors.white,
       context: context,
       isScrollControlled: true,
       builder: (context) {
         return Obx(() {
-          return SizedBox(
-            height: MySize.safeHeight! * 0.9,
-            child: Column(
-              children: [
-                AppBar(
-                  backgroundColor: Colors.blue,
-                  title: Text(
-                    'Photo Gallery',
-                    style: TextStyle(color: Colors.white),
+          return ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            child: SizedBox(
+              height: MySize.safeHeight! * 0.9,
+              child: Column(
+                children: [
+                  AppBar(
+                    backgroundColor: Colors.blue,
+                    title: Text(
+                      'Photo Gallery',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
+                    centerTitle: true,
                   ),
-                  leading: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                  centerTitle: true,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: controller.albumsList.length,
-                    itemBuilder: (context, index) {
-                      Album album = controller.albumsList[index];
-                      return ListTile(
-                        onTap: () {
-                          controller.onAlbumSelected(
-                              context: context, album: album);
-                        },
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: FadeInImage(
-                            fit: BoxFit.cover,
-                            width: 50,
-                            placeholder: MemoryImage(kTransparentImage),
-                            image: AlbumThumbnailProvider(
-                              album: album,
-                              highQuality: true,
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: controller.albumsList.length,
+                      itemBuilder: (context, index) {
+                        Album album = controller.albumsList[index];
+                        return ListTile(
+                          onTap: () {
+                            controller.onAlbumSelected(
+                                context: context, album: album);
+                          },
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: FadeInImage(
+                              fit: BoxFit.cover,
+                              width: 50,
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: AlbumThumbnailProvider(
+                                album: album,
+                                highQuality: true,
+                              ),
                             ),
                           ),
-                        ),
-                        title:
-                            Text('${controller.albumsList[index].name ?? ''}'),
-                        subtitle: Text('${controller.albumsList[index].count}'),
-                      );
-                    },
+                          title: Text(
+                              '${controller.albumsList[index].name ?? ''}'),
+                          subtitle:
+                              Text('${controller.albumsList[index].count}'),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Divider(),
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });
