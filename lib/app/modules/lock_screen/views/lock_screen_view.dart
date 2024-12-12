@@ -66,7 +66,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                               lockValue: []);
                                           box.write(ArgumentConstants.setLock,
                                               lockModel.toJson());
-                                          Get.offAllNamed(Routes.LOCK_SCREEN);
+                                          Get.offAllNamed(Routes.ALBUMS_SCREEN);
                                         } else {
                                           controller.faceIdButton.value = true;
                                         }
@@ -107,7 +107,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
                       onInputComplete: (List<int> input) {
                         if (controller.lockModel.value.lockValue!.join("") ==
                             input.join("")) {
-                          Get.offAllNamed(Routes.HOME);
+                          Get.offAllNamed(Routes.ALBUMS_SCREEN);
                         } else {
                           Get.snackbar('Error', 'Invalid Pattern');
                           Vibration.vibrate();
@@ -151,7 +151,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
                         if (controller.isLockSet.value == true) {
                           if (controller.lockModel.value.lockValue!.join("") ==
                               value) {
-                            Get.offAllNamed(Routes.HOME);
+                            Get.offAllNamed(Routes.ALBUMS_SCREEN);
                           } else {
                             controller.passwordController.value.text = "";
                             Vibration.vibrate();
@@ -170,7 +170,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
                               );
                               box.write(ArgumentConstants.setLock,
                                   lockModel.toJson());
-                              Get.offAllNamed(Routes.HOME);
+                              Get.offAllNamed(Routes.ALBUMS_SCREEN);
                             } else {
                               controller.passwordController.value.text = "";
                               Vibration.vibrate();

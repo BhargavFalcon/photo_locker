@@ -25,6 +25,8 @@ class ArgumentConstants {
   static const isLockSet = "isLockSet";
   static const setLock = "setLock";
   static const bioMetricTypeList = "bioMetricTypeList";
+  static const albumList = "albumList";
+  static const albumModel = "albumModel";
 }
 
 class ImageConstant {

@@ -7,6 +7,8 @@ abstract class Routes {
   static const LOCK_SCREEN = _Paths.LOCK_SCREEN;
   static const SETTING_SCREEN = _Paths.SETTING_SCREEN;
   static const CHANGE_PASSCODE_SCREEN = _Paths.CHANGE_PASSCODE_SCREEN;
+  static const ALBUMS_SCREEN = _Paths.ALBUMS_SCREEN;
+  static const ALBUM_DETAIL_SCREEN = _Paths.ALBUM_DETAIL_SCREEN;
 }
 
 abstract class _Paths {
@@ -15,4 +17,6 @@ abstract class _Paths {
   static const LOCK_SCREEN = '/lock-screen';
   static const SETTING_SCREEN = '/setting-screen';
   static const CHANGE_PASSCODE_SCREEN = '/change-passcode-screen';
+  static const ALBUMS_SCREEN = '/albums-screen';
+  static const ALBUM_DETAIL_SCREEN = '/album-detail-screen';
 }
