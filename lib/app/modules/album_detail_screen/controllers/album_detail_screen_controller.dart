@@ -29,6 +29,7 @@ class AlbumDetailScreenController extends GetxController {
       videoList.value = albumModel.value.albumImagesList!
           .where((element) => element.mediumType == MediumType.video)
           .toList();
+      PhotoGalleryFlutter.listAlbums();
     }
     super.onInit();
   }
@@ -44,7 +45,21 @@ class AlbumDetailScreenController extends GetxController {
     if (Platform.isIOS) {
       if (await Permission.photos.request().isGranted ||
           await Permission.storage.request().isGranted) {
-        return true;
+        print('Photos permission granted');
+        Permission.storage.onGrantedCallback(
+          () {
+            initAsync();
+            print('Storage permission granted');
+          },
+        );
+        Permission.photos.onGrantedCallback(
+          () {
+            initAsync();
+            print('Photos permission granted');
+          },
+        );
+        return await Permission.storage.isGranted ||
+            await Permission.photos.isGranted;
       }
     }
     if (Platform.isAndroid) {
