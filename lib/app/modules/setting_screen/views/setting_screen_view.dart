@@ -10,7 +10,7 @@ import 'package:photo_locker/constants/sizeConstant.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/setting_screen_controller.dart';
 
-class SettingScreenView extends GetView<SettingScreenController> {
+class SettingScreenView extends GetWidget<SettingScreenController> {
   const SettingScreenView({super.key});
   @override
   Widget build(BuildContext context) {
@@ -94,6 +94,7 @@ class SettingScreenView extends GetView<SettingScreenController> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -139,27 +140,24 @@ class SettingScreenView extends GetView<SettingScreenController> {
                           controller.passwordVisible.value ? false : true,
                     ),
                   ),
-                  Spacer(),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        controller.passwordController.value.clear();
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                          ),
+                  InkWell(
+                    onTap: () {
+                      controller.passwordController.value.clear();
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(5),
+                          bottomLeft: Radius.circular(5),
                         ),
-                        height: 45,
-                        child: Center(
-                          child: Text('Cancel',
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black)),
-                        ),
+                      ),
+                      height: 45,
+                      child: Center(
+                        child: Text('Cancel',
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.black)),
                       ),
                     ),
                   )
@@ -231,6 +229,7 @@ class SettingScreenView extends GetView<SettingScreenController> {
                       color: Colors.grey,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
                       ),
                     ),
                     height: 45,
