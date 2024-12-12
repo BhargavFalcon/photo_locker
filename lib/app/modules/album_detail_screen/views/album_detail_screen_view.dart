@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
+import 'package:photo_locker/model/albumModel.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../controllers/album_detail_screen_controller.dart';
@@ -33,16 +36,62 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
               ),
               body: TabBarView(
                 children: [
-                  Container(
-                    child: Center(
-                      child: Text('Images'),
+                  GridView.builder(
+                    padding: EdgeInsets.all(10),
+                    itemCount: controller.imageList.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 7,
+                      crossAxisSpacing: 7,
                     ),
+                    itemBuilder: (context, index) {
+                      ImageAlbumModel imageAlbumModel =
+                          controller.imageList[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(imageAlbumModel.imagePath!),
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  Container(
-                    child: Center(
-                      child: Text('Videos'),
+                  GridView.builder(
+                    padding: EdgeInsets.all(10),
+                    itemCount: controller.videoList.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 7,
+                      crossAxisSpacing: 7,
                     ),
-                  ),
+                    itemBuilder: (context, index) {
+                      ImageAlbumModel imageAlbumModel =
+                          controller.videoList[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(imageAlbumModel.thumbnail!),
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: double.infinity,
+                          color: Colors.black.withOpacity(0.5),
+                          child: Text(
+                            formatDuration(imageAlbumModel.duration!),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
               floatingActionButton: FloatingActionButton(

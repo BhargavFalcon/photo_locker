@@ -164,7 +164,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                             AlbumModel albumModel = AlbumModel(
                               id: DateTime.now().millisecondsSinceEpoch,
                               albumName: controller.albumController.value.text,
-                              albumImagesList: <String>[],
+                              albumImagesList: [],
                             );
                             controller.albumList.add(albumModel);
                             box.write(

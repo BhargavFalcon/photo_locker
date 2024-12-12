@@ -2,21 +2,33 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
+import 'package:photo_locker/app/modules/albums_screen/controllers/albums_screen_controller.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
 import 'package:photo_locker/model/albumModel.dart';
 
 import '../../../../constants/sizeConstant.dart';
+import '../../../../main.dart';
 
 class AlbumDetailScreenController extends GetxController {
   Rx<AlbumModel> albumModel = AlbumModel().obs;
   RxList<Album> albumsList = <Album>[].obs;
   RxList<Medium> albumImagesList = <Medium>[].obs;
+  RxList<ImageAlbumModel> imageList = <ImageAlbumModel>[].obs;
+  RxList<ImageAlbumModel> videoList = <ImageAlbumModel>[].obs;
+
   @override
   void onInit() {
     if (Get.arguments != null) {
       albumModel.value = Get.arguments[ArgumentConstants.albumModel];
+      imageList.value = albumModel.value.albumImagesList!
+          .where((element) => element.mediumType == MediumType.image)
+          .toList();
+      videoList.value = albumModel.value.albumImagesList!
+          .where((element) => element.mediumType == MediumType.video)
+          .toList();
     }
     super.onInit();
   }
@@ -92,12 +104,75 @@ class AlbumDetailScreenController extends GetxController {
                         if (selectedIndexes.isNotEmpty)
                           IconButton(
                             icon: Icon(Icons.check, color: Colors.white),
-                            onPressed: () {
+                            onPressed: () async {
+                              Directory directory =
+                                  await getApplicationCacheDirectory();
                               List<Medium> selectedMedia = [];
                               for (int index in selectedIndexes) {
                                 selectedMedia.add(albumImagesList[index]);
                               }
+                              selectedMedia.forEach((element) async {
+                                File file = await element.getFile();
+                                File newFile = await file.copy(
+                                    '${directory.path}/${element.title}.${element.mediumType == MediumType.image ? 'jpg' : 'mp4'}');
+                                print(newFile.path);
+                                File thumbnailFile = File(
+                                    '${directory.path}/${element.title}_thumbnail.jpg');
+                                await thumbnailFile
+                                    .writeAsBytes(await element.getThumbnail());
+                                List<ImageAlbumModel> imageAlbumList =
+                                    albumModel.value.albumImagesList ?? [];
+                                imageAlbumList.add(ImageAlbumModel(
+                                    id: DateTime.now().millisecondsSinceEpoch,
+                                    imagePath: newFile.path,
+                                    duration: element.duration,
+                                    thumbnail: thumbnailFile.path,
+                                    mediumType: element.mediumType));
+                                albumModel.value.albumImagesList =
+                                    imageAlbumList;
+                                albumModel.refresh();
+                                imageList.value = albumModel
+                                    .value.albumImagesList!
+                                    .where((element) =>
+                                        element.mediumType == MediumType.image)
+                                    .toList();
+                                videoList.value = albumModel
+                                    .value.albumImagesList!
+                                    .where((element) =>
+                                        element.mediumType == MediumType.video)
+                                    .toList();
+                                update();
+                              });
+                              await Future.delayed(Duration(seconds: 1));
+                              if (Get.isRegistered<AlbumsScreenController>()) {
+                                AlbumsScreenController albumsScreenController =
+                                    Get.find();
+                                albumsScreenController.albumList
+                                        .firstWhere((element) =>
+                                            element.id == albumModel.value.id)
+                                        .albumImagesList =
+                                    albumModel.value.albumImagesList;
+                                albumsScreenController.albumList.refresh();
+
+                                print(albumsScreenController.albumList
+                                    .firstWhere((element) =>
+                                        element.id == albumModel.value.id)
+                                    .albumImagesList);
+                                box.write(
+                                    ArgumentConstants.albumList,
+                                    albumsScreenController.albumList
+                                        .map((e) => e.toJson())
+                                        .toList());
+                              }
+                              List<MediumToDelete> mediumToDelete =
+                                  selectedMedia
+                                      .map((e) =>
+                                          MediumToDelete(e.id, e.mediumType))
+                                      .toList();
                               Get.back();
+                              Get.back();
+                              PhotoGalleryFlutter.deleteMedium(
+                                  mediumToDelete: mediumToDelete);
                             },
                           ),
                       ],
@@ -134,9 +209,10 @@ class AlbumDetailScreenController extends GetxController {
                                       ),
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        opacity: (selectedIndexes.contains(index))
-                                            ? 0.5
-                                            : 1,
+                                        opacity:
+                                            (selectedIndexes.contains(index))
+                                                ? 0.5
+                                                : 1,
                                         image: ThumbnailProvider(
                                           mediumId: medium.id,
                                           mediumType: medium.mediumType,
