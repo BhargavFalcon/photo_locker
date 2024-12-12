@@ -27,7 +27,7 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to your photo library to upload and share your favorite moments</string>
+    <string>To import photos and videos to photo locker</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSFaceIDUsageDescription</key>

@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
+import 'package:photo_locker/app/routes/app_pages.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
+import 'package:photo_locker/constants/stringConstants.dart';
 import 'package:photo_locker/model/albumModel.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -36,62 +38,88 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
               ),
               body: TabBarView(
                 children: [
-                  GridView.builder(
-                    padding: EdgeInsets.all(10),
-                    itemCount: controller.imageList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      mainAxisSpacing: 7,
-                      crossAxisSpacing: 7,
-                    ),
-                    itemBuilder: (context, index) {
-                      ImageAlbumModel imageAlbumModel =
-                          controller.imageList[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(imageAlbumModel.imagePath!),
-                            ),
-                            fit: BoxFit.cover,
+                  (isNullEmptyOrFalse(controller.imageList))
+                      ? Center(child: Text('Images'))
+                      : GridView.builder(
+                          padding: EdgeInsets.all(10),
+                          itemCount: controller.imageList.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 7,
+                            crossAxisSpacing: 7,
                           ),
+                          itemBuilder: (context, index) {
+                            ImageAlbumModel imageAlbumModel =
+                                controller.imageList[index];
+                            return InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.PREVIEW_SCREEN, arguments: {
+                                  ArgumentConstants.imageVideoList:
+                                      controller.imageList,
+                                  ArgumentConstants.previewType: 'image',
+                                  ArgumentConstants.currentIndex: index,
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(
+                                      File(imageAlbumModel.imagePath!),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                  GridView.builder(
-                    padding: EdgeInsets.all(10),
-                    itemCount: controller.videoList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      mainAxisSpacing: 7,
-                      crossAxisSpacing: 7,
-                    ),
-                    itemBuilder: (context, index) {
-                      ImageAlbumModel imageAlbumModel =
-                          controller.videoList[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(imageAlbumModel.thumbnail!),
-                            ),
-                            fit: BoxFit.cover,
+                  (isNullEmptyOrFalse(controller.videoList))
+                      ? Center(child: Text('Videos'))
+                      : GridView.builder(
+                          padding: EdgeInsets.all(10),
+                          itemCount: controller.videoList.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 7,
+                            crossAxisSpacing: 7,
                           ),
-                        ),
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          width: double.infinity,
-                          color: Colors.black.withOpacity(0.5),
-                          child: Text(
-                            formatDuration(imageAlbumModel.duration!),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      );
-                    },
-                  )
+                          itemBuilder: (context, index) {
+                            ImageAlbumModel imageAlbumModel =
+                                controller.videoList[index];
+                            return InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.PREVIEW_SCREEN, arguments: {
+                                  ArgumentConstants.imageVideoList:
+                                      controller.videoList,
+                                  ArgumentConstants.previewType: 'video',
+                                  ArgumentConstants.currentIndex: index,
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(
+                                      File(imageAlbumModel.thumbnail!),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  width: double.infinity,
+                                  color: Colors.black.withOpacity(0.5),
+                                  child: Text(
+                                    formatDuration(imageAlbumModel.duration!),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
                 ],
               ),
               floatingActionButton: FloatingActionButton(

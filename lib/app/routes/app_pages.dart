@@ -10,6 +10,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/lock_screen/bindings/lock_screen_binding.dart';
 import '../modules/lock_screen/views/lock_screen_view.dart';
+import '../modules/preview_screen/bindings/preview_screen_binding.dart';
+import '../modules/preview_screen/views/preview_screen_view.dart';
 import '../modules/setting_screen/bindings/setting_screen_binding.dart';
 import '../modules/setting_screen/views/setting_screen_view.dart';
 
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.ALBUM_DETAIL_SCREEN,
       page: () => const AlbumDetailScreenView(),
       binding: AlbumDetailScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.PREVIEW_SCREEN,
+      page: () => const PreviewScreenView(),
+      binding: PreviewScreenBinding(),
     ),
   ];
 }
