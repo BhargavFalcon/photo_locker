@@ -64,61 +64,57 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                 .previewList[controller.currentIndex.value]
                                 .imagePath!),
                           )
-                        :  FlickVideoPlayer(
-                                flickManager: controller.flickManager,
-                                flickVideoWithControls: FlickVideoWithControls(
-                                  videoFit: BoxFit.contain,
-                                  controls: (controller.isHide.isTrue)
-                                      ? null
-                                      : Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                color: Colors.blue.shade200,
+                        : FlickVideoPlayer(
+                            flickManager: controller.flickManager,
+                            flickVideoWithControls: FlickVideoWithControls(
+                              videoFit: BoxFit.contain,
+                              controls: (controller.isHide.isFalse)
+                                  ? null
+                                  : Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue.shade200,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              FlickCurrentPosition(
+                                                fontSize: 16,
+                                                color: Colors.white,
                                               ),
-                                              child: Row(
-                                                children: [
-                                                  FlickCurrentPosition(
-                                                    fontSize: 16,
-                                                    color: Colors.white,
+                                              Expanded(
+                                                child: FlickVideoProgressBar(
+                                                  flickProgressBarSettings:
+                                                      FlickProgressBarSettings(
+                                                    height: 8,
+                                                    handleRadius: 8,
+                                                    padding: EdgeInsets.all(10),
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    bufferedColor: Colors.white,
+                                                    playedColor:
+                                                        Colors.blue.shade700,
+                                                    handleColor:
+                                                        Colors.blue.shade700,
                                                   ),
-                                                  Expanded(
-                                                    child:
-                                                        FlickVideoProgressBar(
-                                                      flickProgressBarSettings:
-                                                          FlickProgressBarSettings(
-                                                        height: 8,
-                                                        handleRadius: 8,
-                                                        padding:
-                                                            EdgeInsets.all(10),
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        bufferedColor:
-                                                            Colors.white,
-                                                        playedColor: Colors
-                                                            .blue.shade700,
-                                                        handleColor: Colors
-                                                            .blue.shade700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  FlickTotalDuration(
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
-                                            Spacing.height(120)
-                                          ],
+                                              FlickTotalDuration(
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                ),
-                              ),
+                                        Spacing.height(120)
+                                      ],
+                                    ),
+                            ),
+                          ),
                   );
                 },
               ),
