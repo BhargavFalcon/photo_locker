@@ -55,8 +55,8 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                             return InkWell(
                               onTap: () {
                                 Get.toNamed(Routes.PREVIEW_SCREEN, arguments: {
-                                  ArgumentConstants.imageVideoList:
-                                      controller.imageList,
+                                  ArgumentConstants.albumModel:
+                                      controller.albumModel.value,
                                   ArgumentConstants.previewType: 'image',
                                   ArgumentConstants.currentIndex: index,
                                 });
@@ -91,8 +91,8 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                             return InkWell(
                               onTap: () {
                                 Get.toNamed(Routes.PREVIEW_SCREEN, arguments: {
-                                  ArgumentConstants.imageVideoList:
-                                      controller.videoList,
+                                  ArgumentConstants.albumModel:
+                                      controller.albumModel.value,
                                   ArgumentConstants.previewType: 'video',
                                   ArgumentConstants.currentIndex: index,
                                 });

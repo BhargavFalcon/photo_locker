@@ -45,19 +45,6 @@ class AlbumDetailScreenController extends GetxController {
     if (Platform.isIOS) {
       if (await Permission.photos.request().isGranted ||
           await Permission.storage.request().isGranted) {
-        print('Photos permission granted');
-        Permission.storage.onGrantedCallback(
-          () {
-            initAsync();
-            print('Storage permission granted');
-          },
-        );
-        Permission.photos.onGrantedCallback(
-          () {
-            initAsync();
-            print('Photos permission granted');
-          },
-        );
         return await Permission.storage.isGranted ||
             await Permission.photos.isGranted;
       }
@@ -156,29 +143,26 @@ class AlbumDetailScreenController extends GetxController {
                                     .where((element) =>
                                         element.mediumType == MediumType.video)
                                     .toList();
+                                if (Get.isRegistered<
+                                    AlbumsScreenController>()) {
+                                  AlbumsScreenController
+                                      albumsScreenController = Get.find();
+                                  albumsScreenController.albumList
+                                          .firstWhere((element) =>
+                                              element.id == albumModel.value.id)
+                                          .albumImagesList =
+                                      albumModel.value.albumImagesList;
+                                  albumsScreenController.albumList.refresh();
+                                  box.write(
+                                      ArgumentConstants.albumList,
+                                      albumsScreenController.albumList
+                                          .map((e) => e.toJson())
+                                          .toList());
+                                }
                                 update();
                               });
                               await Future.delayed(Duration(seconds: 1));
-                              if (Get.isRegistered<AlbumsScreenController>()) {
-                                AlbumsScreenController albumsScreenController =
-                                    Get.find();
-                                albumsScreenController.albumList
-                                        .firstWhere((element) =>
-                                            element.id == albumModel.value.id)
-                                        .albumImagesList =
-                                    albumModel.value.albumImagesList;
-                                albumsScreenController.albumList.refresh();
 
-                                print(albumsScreenController.albumList
-                                    .firstWhere((element) =>
-                                        element.id == albumModel.value.id)
-                                    .albumImagesList);
-                                box.write(
-                                    ArgumentConstants.albumList,
-                                    albumsScreenController.albumList
-                                        .map((e) => e.toJson())
-                                        .toList());
-                              }
                               List<MediumToDelete> mediumToDelete =
                                   selectedMedia
                                       .map((e) =>

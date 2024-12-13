@@ -24,7 +24,6 @@ class PrefConstant {
 class ArgumentConstants {
   static const isLockSet = "isLockSet";
   static const setLock = "setLock";
-  static const imageVideoList = "imageVideoList";
   static const previewType = "previewType";
   static const currentIndex = "currentIndex";
   static const bioMetricTypeList = "bioMetricTypeList";

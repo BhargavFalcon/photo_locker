@@ -1,4 +1,6 @@
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
+import 'package:video_player/video_player.dart';
 
 class AlbumModel {
   int? id;
