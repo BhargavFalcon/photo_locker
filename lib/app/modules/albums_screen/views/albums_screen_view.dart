@@ -32,16 +32,24 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
             },
           ),
           actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.settings,
-                color: Colors.white,
-                size: 30,
-              ),
-              onPressed: () {
-                Get.toNamed(Routes.SETTING_SCREEN);
-              },
-            ),
+            (controller.isEdit.value == true)
+                ? IconButton(
+                    onPressed: null,
+                    icon: Icon(
+                      Icons.settings,
+                      color: Colors.white.withOpacity(0.5),
+                      size: 30,
+                    ))
+                : IconButton(
+                    icon: const Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      Get.toNamed(Routes.SETTING_SCREEN);
+                    },
+                  ),
           ],
         ),
         body: (controller.albumList.isEmpty)
@@ -173,17 +181,21 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                 },
               ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
+          backgroundColor: controller.isEdit.value == true
+              ? Colors.blue.shade100
+              : Colors.blue,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
-          onPressed: () {
-            albumWidget(
-              context: context,
-              title: 'Add album',
-            );
-          },
+          onPressed: (controller.isEdit.value == true)
+              ? null
+              : () {
+                  albumWidget(
+                    context: context,
+                    title: 'Add album',
+                  );
+                },
           child: const Icon(Icons.add, color: Colors.white),
         ),
       );
