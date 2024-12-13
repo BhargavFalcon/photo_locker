@@ -12,6 +12,8 @@ import '../modules/preview_screen/bindings/preview_screen_binding.dart';
 import '../modules/preview_screen/views/preview_screen_view.dart';
 import '../modules/setting_screen/bindings/setting_screen_binding.dart';
 import '../modules/setting_screen/views/setting_screen_view.dart';
+import '../modules/splash_screen/bindings/splash_screen_binding.dart';
+import '../modules/splash_screen/views/splash_screen_view.dart';
 
 part 'app_routes.dart';
 
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.PREVIEW_SCREEN,
       page: () => const PreviewScreenView(),
       binding: PreviewScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH_SCREEN,
+      page: () => const SplashScreenView(),
+      binding: SplashScreenBinding(),
     ),
   ];
 }

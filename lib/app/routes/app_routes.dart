@@ -9,6 +9,7 @@ abstract class Routes {
   static const ALBUMS_SCREEN = _Paths.ALBUMS_SCREEN;
   static const ALBUM_DETAIL_SCREEN = _Paths.ALBUM_DETAIL_SCREEN;
   static const PREVIEW_SCREEN = _Paths.PREVIEW_SCREEN;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const ALBUMS_SCREEN = '/albums-screen';
   static const ALBUM_DETAIL_SCREEN = '/album-detail-screen';
   static const PREVIEW_SCREEN = '/preview-screen';
+  static const SPLASH_SCREEN = '/splash-screen';
 }
