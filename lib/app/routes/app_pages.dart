@@ -6,8 +6,6 @@ import '../modules/albums_screen/bindings/albums_screen_binding.dart';
 import '../modules/albums_screen/views/albums_screen_view.dart';
 import '../modules/change_passcode_screen/bindings/change_passcode_screen_binding.dart';
 import '../modules/change_passcode_screen/views/change_passcode_screen_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
 import '../modules/lock_screen/bindings/lock_screen_binding.dart';
 import '../modules/lock_screen/views/lock_screen_view.dart';
 import '../modules/preview_screen/bindings/preview_screen_binding.dart';
@@ -20,7 +18,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ALBUMS_SCREEN;
+  static const INITIAL = Routes.LOCK_SCREEN;
 
   static final routes = [
     GetPage(

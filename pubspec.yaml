@@ -40,6 +40,7 @@ dependencies:
   pin_code_fields: ^8.0.1
   permission_handler: ^11.3.1
   photo_gallery_flutter: ^1.0.1
+  google_fonts: ^6.2.1
   flick_video_player: ^0.9.0
   gallery_saver_plus: ^3.2.1
   video_player: ^2.9.2
