@@ -8,6 +8,7 @@ import 'package:photo_locker/model/albumModel.dart';
 class AlbumsScreenController extends GetxController {
   Rx<TextEditingController> albumController = TextEditingController().obs;
   RxList<AlbumModel> albumList = <AlbumModel>[].obs;
+  RxBool isEdit = false.obs;
   @override
   void onInit() {
     if (!isNullEmptyOrFalse(box.read(ArgumentConstants.albumList))) {

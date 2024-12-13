@@ -21,6 +21,16 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
           backgroundColor: Colors.blue,
           title: const Text('Albums', style: TextStyle(color: Colors.white)),
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(
+              (controller.isEdit.value == false) ? Icons.edit : Icons.check,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () {
+              controller.isEdit.toggle();
+            },
+          ),
           actions: [
             IconButton(
               icon: const Icon(
@@ -57,29 +67,107 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                             controller.albumList[index]
                       });
                     },
-                    child: Container(
-                      alignment: Alignment.bottomCenter,
-                      color: Colors.grey,
-                      child: Container(
-                        color: Colors.black.withOpacity(0.5),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(controller.albumList[index].albumName!,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16)),
-                              Text(
-                                  '${controller.albumList[index].albumImagesList!.length}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  )),
-                            ],
+                    child: Stack(
+                      children: [
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          color: Colors.grey,
+                          child: Container(
+                            color: Colors.black.withOpacity(0.5),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(controller.albumList[index].albumName!,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16)),
+                                  Text(
+                                      '${controller.albumList[index].albumImagesList!.length}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      )),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        (controller.isEdit.value == true)
+                            ? Positioned(
+                                top: 10,
+                                left: 10,
+                                child: InkWell(
+                                  onTap: () {
+                                    controller.albumController.value.text =
+                                        controller.albumList[index].albumName!;
+                                    showCupertinoModalPopup(
+                                      barrierDismissible: true,
+                                      context: context,
+                                      builder: (context) =>
+                                          CupertinoActionSheet(
+                                        title: Text(
+                                            controller
+                                                .albumList[index].albumName!,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15,
+                                                color: Colors.black)),
+                                        actions: <CupertinoActionSheetAction>[
+                                          CupertinoActionSheetAction(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              albumWidget(
+                                                  index: index,
+                                                  isEdit: true,
+                                                  context: context,
+                                                  title: "Rename album");
+                                            },
+                                            child: Text('Rename',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: Colors.blue)),
+                                          ),
+                                          CupertinoActionSheetAction(
+                                            onPressed: () {
+                                              controller.albumList
+                                                  .removeAt(index);
+                                              controller.albumList.refresh();
+                                              box.write(
+                                                  ArgumentConstants.albumList,
+                                                  controller.albumList
+                                                      .map((e) => e.toJson())
+                                                      .toList());
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('Delete',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: Colors.blue)),
+                                          ),
+                                        ],
+                                        cancelButton:
+                                            CupertinoActionSheetAction(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Cancel',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                  color: Colors.blue)),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(Icons.delete),
+                                ),
+                              )
+                            : Container(),
+                      ],
                     ),
                   );
                 },
@@ -105,6 +193,8 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
   albumWidget({
     required BuildContext context,
     required String title,
+    bool isEdit = false,
+    int index = 0,
   }) {
     return showDialog(
       barrierDismissible: false,
@@ -150,31 +240,62 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                     children: [
                       Expanded(
                         child: InkWell(
-                          onTap: () {
-                            if (controller.albumController.value.text.isEmpty) {
-                              Get.snackbar('Error', 'Please enter album name');
-                              return;
-                            }
-                            if (controller.albumList.any((element) =>
-                                element.albumName ==
-                                controller.albumController.value.text)) {
-                              Get.snackbar('Error', 'Album already exists');
-                              return;
-                            }
-                            AlbumModel albumModel = AlbumModel(
-                              id: DateTime.now().millisecondsSinceEpoch,
-                              albumName: controller.albumController.value.text,
-                              albumImagesList: [],
-                            );
-                            controller.albumList.add(albumModel);
-                            box.write(
-                                ArgumentConstants.albumList,
-                                controller.albumList
-                                    .map((e) => e.toJson())
-                                    .toList());
-                            controller.albumController.value.clear();
-                            Navigator.pop(context);
-                          },
+                          onTap: (isEdit)
+                              ? () {
+                                  if (controller
+                                      .albumController.value.text.isEmpty) {
+                                    Get.snackbar(
+                                        'Error', 'Please enter album name');
+                                    return;
+                                  }
+                                  if (controller.albumList.any((element) =>
+                                      element.albumName ==
+                                      controller.albumController.value.text)) {
+                                    Get.snackbar(
+                                        'Error', 'Album already exists');
+                                    return;
+                                  }
+                                  controller.albumList[index].albumName =
+                                      controller.albumController.value.text;
+                                  controller.albumList.refresh();
+                                  box.write(
+                                      ArgumentConstants.albumList,
+                                      controller.albumList
+                                          .map((e) => e.toJson())
+                                          .toList());
+                                  controller.albumController.value.clear();
+                                  controller.isEdit.value = false;
+                                  Navigator.pop(context);
+                                }
+                              : () {
+                                  if (controller
+                                      .albumController.value.text.isEmpty) {
+                                    Get.snackbar(
+                                        'Error', 'Please enter album name');
+                                    return;
+                                  }
+                                  if (controller.albumList.any((element) =>
+                                      element.albumName ==
+                                      controller.albumController.value.text)) {
+                                    Get.snackbar(
+                                        'Error', 'Album already exists');
+                                    return;
+                                  }
+                                  AlbumModel albumModel = AlbumModel(
+                                    id: DateTime.now().millisecondsSinceEpoch,
+                                    albumName:
+                                        controller.albumController.value.text,
+                                    albumImagesList: [],
+                                  );
+                                  controller.albumList.add(albumModel);
+                                  box.write(
+                                      ArgumentConstants.albumList,
+                                      controller.albumList
+                                          .map((e) => e.toJson())
+                                          .toList());
+                                  controller.albumController.value.clear();
+                                  Navigator.pop(context);
+                                },
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.blue,
@@ -184,7 +305,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                             ),
                             height: 45,
                             child: Center(
-                              child: Text('Add',
+                              child: Text((isEdit) ? 'Rename' : 'Add',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.white)),
                             ),
