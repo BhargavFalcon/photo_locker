@@ -53,49 +53,56 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                             File(controller
                                 .previewList[controller.currentIndex.value]
                                 .imagePath!))
-                        : Column(
-                            children: [
-                              Spacing.height(100),
-                              Expanded(
-                                child: FlickVideoPlayer(
-                                  flickManager: controller.flickManager,
-                                  flickVideoWithControls:
-                                      FlickVideoWithControls(
-                                    videoFit: BoxFit.contain,
-                                    controls: (controller.isHide.isTrue)
-                                        ? null
-                                        : Row(
+                        : FlickVideoPlayer(
+                            flickManager: controller.flickManager,
+                            flickVideoWithControls: FlickVideoWithControls(
+                              videoFit: BoxFit.contain,
+                              controls: (controller.isHide.isTrue)
+                                  ? null
+                                  : Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue.shade200,
+                                          ),
+                                          child: Row(
                                             children: [
                                               FlickCurrentPosition(
-                                                fontSize: 20,
-                                                color: Colors.blue,
+                                                fontSize: 16,
+                                                color: Colors.white,
                                               ),
                                               Expanded(
                                                 child: FlickVideoProgressBar(
                                                   flickProgressBarSettings:
                                                       FlickProgressBarSettings(
-                                                    height: 10,
-                                                    handleRadius: 10,
+                                                    height: 8,
+                                                    handleRadius: 8,
                                                     padding: EdgeInsets.all(10),
                                                     backgroundColor:
                                                         Colors.white,
-                                                    bufferedColor: Colors.grey,
-                                                    playedColor: Colors.blue,
-                                                    handleColor: Colors.blue,
+                                                    bufferedColor: Colors.white,
+                                                    playedColor:
+                                                        Colors.blue.shade700,
+                                                    handleColor:
+                                                        Colors.blue.shade700,
                                                   ),
                                                 ),
                                               ),
                                               FlickTotalDuration(
-                                                fontSize: 20,
-                                                color: Colors.blue,
+                                                fontSize: 16,
+                                                color: Colors.white,
                                               ),
                                             ],
                                           ),
-                                  ),
-                                ),
-                              ),
-                              Spacing.height(100),
-                            ],
+                                        ),
+                                        Spacing.height(120)
+                                      ],
+                                    ),
+                            ),
                           ),
                   );
                 },
@@ -111,14 +118,23 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                             onPressed: () {
                               Get.back();
                             },
-                            icon: Icon(Icons.arrow_back)),
+                            icon: Icon(Icons.arrow_back, color: Colors.white)),
                         title: Text(
                           '${controller.currentIndex.value + 1}/${controller.previewList.length}',
                           style: TextStyle(
                             fontSize: 20,
+                            color: Colors.white,
                           ),
                         ),
                         centerTitle: true,
+                        actions: [
+                          IconButton(
+                            onPressed: () {
+                              
+                            },
+                            icon: Icon(Icons.loop, color: Colors.white),
+                          ),
+                        ],
                       ),
                       Spacer(),
                       Container(
