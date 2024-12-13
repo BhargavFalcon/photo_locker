@@ -38,7 +38,7 @@ class LockScreenController extends GetxController {
           if (authBioMetricWidget.availableBiometrics?.isNotEmpty ?? false) {
             authBioMetricWidget.authenticateWithBiometrics().then((value) {
               if (value) {
-                Get.offAllNamed(Routes.HOME);
+                Get.offAllNamed(Routes.ALBUMS_SCREEN);
               } else {
                 faceIdButton.value = true;
               }

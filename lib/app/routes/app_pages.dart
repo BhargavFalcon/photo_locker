@@ -24,11 +24,6 @@ class AppPages {
 
   static final routes = [
     GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
-    GetPage(
       name: _Paths.LOCK_SCREEN,
       page: () => const LockScreenView(),
       binding: LockScreenBinding(),
