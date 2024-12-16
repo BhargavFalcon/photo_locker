@@ -37,130 +37,132 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[200],
-      body: Column(
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          settingWidget(
-            onTap: () {},
-            context: context,
-            image: ImageConstant.premium,
-            widget: Column(
-              children: [
-                Text("Photo Locker Pro (₹ 399.00)",
-                    style: TextStyle(color: Colors.black, fontSize: 16)),
-                Text(
-                  "Hide unlimited media + Remove Ads",
-                  style: TextStyle(color: Colors.black, fontSize: 12),
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
             ),
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.grey[200],
-            height: 0,
-          ),
-          settingWidget(
-            onTap: () async {
-              if (controller.lockModel.value.lockDigits != 0) {
-                pinCodeWidget(
-                    context: context,
-                    title: controller.lockModel.value.lockType!,
-                    text: 'Enter Pincode',
-                    passwordLength: controller.lockModel.value.lockDigits!);
-              } else if (controller.lockModel.value.lockType ==
-                  'Pattern Lock') {
-                patternWidget(context: context);
-              } else {
-                if (controller.authBioMetricWidget.supportState ==
-                    SupportState.unSupported) {
-                  Get.snackbar('Error', 'Biometric not supported');
+            settingWidget(
+              onTap: () {},
+              context: context,
+              image: ImageConstant.premium,
+              widget: Column(
+                children: [
+                  Text("Photo Locker Pro (₹ 399.00)",
+                      style: TextStyle(color: Colors.black, fontSize: 16)),
+                  Text(
+                    "Hide unlimited media + Remove Ads",
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 1,
+              color: Colors.grey[200],
+              height: 0,
+            ),
+            settingWidget(
+              onTap: () async {
+                if (controller.lockModel.value.lockDigits != 0) {
+                  pinCodeWidget(
+                      context: context,
+                      title: controller.lockModel.value.lockType!,
+                      text: 'Enter Pincode',
+                      passwordLength: controller.lockModel.value.lockDigits!);
+                } else if (controller.lockModel.value.lockType ==
+                    'Pattern Lock') {
+                  patternWidget(context: context);
                 } else {
-                  if (controller.authBioMetricWidget.availableBiometrics
-                          ?.isNotEmpty ??
-                      false) {
-                    controller.authBioMetricWidget
-                        .authenticateWithBiometrics()
-                        .then((value) {
-                      if (value) {
-                        Get.toNamed(Routes.CHANGE_PASSCODE_SCREEN);
-                      }
-                    });
+                  if (controller.authBioMetricWidget.supportState ==
+                      SupportState.unSupported) {
+                    Get.snackbar('Error', 'Biometric not supported');
                   } else {
-                    await openAppSettings();
+                    if (controller.authBioMetricWidget.availableBiometrics
+                            ?.isNotEmpty ??
+                        false) {
+                      controller.authBioMetricWidget
+                          .authenticateWithBiometrics()
+                          .then((value) {
+                        if (value) {
+                          Get.toNamed(Routes.CHANGE_PASSCODE_SCREEN);
+                        }
+                      });
+                    } else {
+                      await openAppSettings();
+                    }
                   }
                 }
-              }
-            },
-            context: context,
-            image: ImageConstant.passcode,
-            title: 'Change Lock Type',
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          settingWidget(
-            onTap: () {},
-            context: context,
-            image: ImageConstant.contacts,
-            title: 'Contact ',
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.grey[200],
-            height: 0,
-          ),
-          settingWidget(
-            onTap: () {},
-            context: context,
-            image: ImageConstant.help,
-            title: 'Help',
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          settingWidget(
-            onTap: () {},
-            context: context,
-            image: ImageConstant.facebook,
-            title: 'Facebook',
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.grey[200],
-            height: 0,
-          ),
-          settingWidget(
-            onTap: () {},
-            context: context,
-            image: ImageConstant.twitter,
-            title: 'Twitter',
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.grey[200],
-            height: 0,
-          ),
-          settingWidget(
-            onTap: () {},
-            context: context,
-            image: ImageConstant.share,
-            title: 'Share',
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Photo Locker ${(Platform.isIOS) ? "V ${controller.appVersionName.value}" : "V ${controller.appVersionName.value}(${controller.appVersionCode.value})"}',
-            style: TextStyle(color: Colors.black, fontSize: 14),
-          ),
-          Text(
-            '© ${DateTime.now().year} Falcon Solutions',
-            style: TextStyle(color: Colors.black, fontSize: 14),
-          ),
-        ],
+              },
+              context: context,
+              image: ImageConstant.passcode,
+              title: 'Change Lock Type',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            settingWidget(
+              onTap: () {},
+              context: context,
+              image: ImageConstant.contacts,
+              title: 'Contact ',
+            ),
+            Divider(
+              thickness: 1,
+              color: Colors.grey[200],
+              height: 0,
+            ),
+            settingWidget(
+              onTap: () {},
+              context: context,
+              image: ImageConstant.help,
+              title: 'Help',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            settingWidget(
+              onTap: () {},
+              context: context,
+              image: ImageConstant.facebook,
+              title: 'Facebook',
+            ),
+            Divider(
+              thickness: 1,
+              color: Colors.grey[200],
+              height: 0,
+            ),
+            settingWidget(
+              onTap: () {},
+              context: context,
+              image: ImageConstant.twitter,
+              title: 'Twitter',
+            ),
+            Divider(
+              thickness: 1,
+              color: Colors.grey[200],
+              height: 0,
+            ),
+            settingWidget(
+              onTap: () {},
+              context: context,
+              image: ImageConstant.share,
+              title: 'Share',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Photo Locker ${(Platform.isIOS) ? "V ${controller.appVersionName.value}" : "V ${controller.appVersionName.value}(${controller.appVersionCode.value})"}',
+              style: TextStyle(color: Colors.black, fontSize: 14),
+            ),
+            Text(
+              '© ${DateTime.now().year} Falcon Solutions',
+              style: TextStyle(color: Colors.black, fontSize: 14),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
 import 'package:photo_locker/app/routes/app_pages.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
@@ -87,8 +88,13 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                             image: DecorationImage(
                               image: (controller.albumList[index]
                                       .albumImagesList!.isNotEmpty)
-                                  ? FileImage(File(controller.albumList[index]
-                                      .albumImagesList!.last.imagePath!))
+                                  ? FileImage(File(controller
+                                      .albumList[index].albumImagesList!
+                                      .where((element) =>
+                                          element.mediumType ==
+                                          MediumType.image)
+                                      .last
+                                      .imagePath!))
                                   : AssetImage(ImageConstant.albumDemo),
                               fit: BoxFit.cover,
                             ),
