@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +25,9 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
           centerTitle: true,
           leading: IconButton(
             icon: Icon(
-              (controller.isEdit.value == false) ? Icons.edit : Icons.check,
+              (controller.isEdit.value == false)
+                  ? Icons.edit_outlined
+                  : Icons.check,
               color: Colors.white,
               size: 30,
             ),
@@ -79,7 +83,16 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                       children: [
                         Container(
                           alignment: Alignment.bottomCenter,
-                          color: Colors.grey,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: (controller.albumList[index]
+                                      .albumImagesList!.isNotEmpty)
+                                  ? FileImage(File(controller.albumList[index]
+                                      .albumImagesList!.last.imagePath!))
+                                  : AssetImage(ImageConstant.albumDemo),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                           child: Container(
                             color: Colors.black.withOpacity(0.5),
                             child: Padding(
@@ -154,7 +167,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 16,
-                                                    color: Colors.blue)),
+                                                    color: Colors.red)),
                                           ),
                                         ],
                                         cancelButton:
@@ -164,14 +177,18 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                                           },
                                           child: Text('Cancel',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
+                                                  fontWeight: FontWeight.bold,
                                                   fontSize: 16,
                                                   color: Colors.blue)),
                                         ),
                                       ),
                                     );
                                   },
-                                  child: Icon(Icons.delete),
+                                  child: Image.asset(
+                                    ImageConstant.minus,
+                                    height: 30,
+                                    width: 30,
+                                  ),
                                 ),
                               )
                             : Container(),

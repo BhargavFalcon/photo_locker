@@ -1,11 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:photo_locker/app/routes/app_pages.dart';
 
 class SplashScreenController extends GetxController {
-  //TODO: Implement SplashScreenController
-
-  final count = 0.obs;
   @override
   void onInit() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(Duration(seconds: 2), () {
+        Get.toNamed(Routes.LOCK_SCREEN);
+      });
+    });
     super.onInit();
   }
 
@@ -18,6 +22,4 @@ class SplashScreenController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

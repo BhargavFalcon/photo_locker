@@ -25,21 +25,71 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
             length: 2,
             child: Scaffold(
               appBar: AppBar(
-                title: Text(controller.albumModel.value.albumName ?? ''),
+                leading: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      ImageConstant.back,
+                    ),
+                  ),
+                ),
+                backgroundColor: Colors.blue,
+                title: Text(controller.albumModel.value.albumName ?? '',
+                    style: TextStyle(color: Colors.white)),
                 centerTitle: true,
-                bottom: TabBar(tabs: [
-                  Tab(
-                    text: 'Images',
-                  ),
-                  Tab(
-                    text: 'Videos',
-                  ),
-                ]),
+                bottom: TabBar(
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorColor: Colors.blueAccent.shade700,
+                    indicatorWeight: 3,
+                    unselectedLabelColor: Colors.white,
+                    labelStyle: TextStyle(
+                      fontSize: MySize.getHeight(16),
+                      fontWeight: FontWeight.w500,
+                    ),
+                    labelColor: Colors.white,
+                    tabs: [
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              ImageConstant.photoTab,
+                              height: MySize.getHeight(30),
+                            ),
+                            SizedBox(width: 5),
+                            Text('Images'),
+                          ],
+                        ),
+                      ),
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              ImageConstant.videoTab,
+                              height: MySize.getHeight(30),
+                            ),
+                            SizedBox(width: 5),
+                            Text('Videos'),
+                          ],
+                        ),
+                      ),
+                    ]),
               ),
               body: TabBarView(
                 children: [
                   (isNullEmptyOrFalse(controller.imageList))
-                      ? Center(child: Text('Images'))
+                      ? Center(
+                          child: Text(
+                              textAlign: TextAlign.center,
+                              'Click the + button and select \nthe Photos to lock them',
+                              style: TextStyle(
+                                fontSize: MySize.getHeight(15),
+                              )),
+                        )
                       : GridView.builder(
                           padding: EdgeInsets.all(10),
                           itemCount: controller.imageList.length,
@@ -75,7 +125,14 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                           },
                         ),
                   (isNullEmptyOrFalse(controller.videoList))
-                      ? Center(child: Text('Videos'))
+                      ? Center(
+                          child: Text(
+                              textAlign: TextAlign.center,
+                              'Click the + button and select \nthe Videos to lock them',
+                              style: TextStyle(
+                                fontSize: MySize.getHeight(15),
+                              )),
+                        )
                       : GridView.builder(
                           padding: EdgeInsets.all(10),
                           itemCount: controller.videoList.length,
