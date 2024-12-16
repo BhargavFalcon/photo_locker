@@ -36,6 +36,7 @@ class ImageConstant {
   static const assetsPath = "assets/";
   static const String homePath = "assets/Home/";
   static const String detailsScreenPath = "assets/Detail Screen/";
+  static const String settings = "assets/Settings/";
 
   static const String Splash = "${splashPath}Splash_X.png";
   static const String bg = "${assetsPath}Bg.png";
@@ -45,4 +46,11 @@ class ImageConstant {
   static const String photoTab = "${detailsScreenPath}Tab_Photo.png";
   static const String videoTab = "${detailsScreenPath}Tab_Video.png";
   static const String back = "${detailsScreenPath}Back.png";
+  static const String premium = "${settings}Premium.png";
+  static const String passcode = "${settings}Passcode.png";
+  static const String contacts = "${settings}Contacts.png";
+  static const String help = "${settings}Help.png";
+  static const String facebook = "${settings}Facebook.png";
+  static const String twitter = "${settings}Twitter.png";
+  static const String share = "${settings}Share_Settings.png";
 }

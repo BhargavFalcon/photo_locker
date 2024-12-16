@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,7 @@ import 'package:pattern_lock/pattern_lock.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_locker/constants/auth_bio_metric_widget.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
+import 'package:photo_locker/constants/stringConstants.dart';
 
 import '../../../routes/app_pages.dart';
 import '../controllers/setting_screen_controller.dart';
@@ -16,12 +19,50 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SettingScreenView'),
+        backgroundColor: Colors.blue,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(ImageConstant.back),
+        ),
+        title: const Text('Settings', style: TextStyle(color: Colors.white)),
+        actions: [
+          Text(
+            'Restore',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+        ],
         centerTitle: true,
       ),
+      backgroundColor: Colors.grey[200],
       body: Column(
         children: [
-          InkWell(
+          SizedBox(
+            height: 20,
+          ),
+          settingWidget(
+            onTap: () {},
+            context: context,
+            image: ImageConstant.premium,
+            widget: Column(
+              children: [
+                Text("Photo Locker Pro (₹ 399.00)",
+                    style: TextStyle(color: Colors.black, fontSize: 16)),
+                Text(
+                  "Hide unlimited media + Remove Ads",
+                  style: TextStyle(color: Colors.black, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            thickness: 1,
+            color: Colors.grey[200],
+            height: 0,
+          ),
+          settingWidget(
             onTap: () async {
               if (controller.lockModel.value.lockDigits != 0) {
                 pinCodeWidget(
@@ -53,18 +94,100 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
                 }
               }
             },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(Icons.lock),
-                  Spacing.width(10),
-                  Text('Change Lock Type'),
-                ],
-              ),
-            ),
+            context: context,
+            image: ImageConstant.passcode,
+            title: 'Change Lock Type',
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          settingWidget(
+            onTap: () {},
+            context: context,
+            image: ImageConstant.contacts,
+            title: 'Contact ',
+          ),
+          Divider(
+            thickness: 1,
+            color: Colors.grey[200],
+            height: 0,
+          ),
+          settingWidget(
+            onTap: () {},
+            context: context,
+            image: ImageConstant.help,
+            title: 'Help',
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          settingWidget(
+            onTap: () {},
+            context: context,
+            image: ImageConstant.facebook,
+            title: 'Facebook',
+          ),
+          Divider(
+            thickness: 1,
+            color: Colors.grey[200],
+            height: 0,
+          ),
+          settingWidget(
+            onTap: () {},
+            context: context,
+            image: ImageConstant.twitter,
+            title: 'Twitter',
+          ),
+          Divider(
+            thickness: 1,
+            color: Colors.grey[200],
+            height: 0,
+          ),
+          settingWidget(
+            onTap: () {},
+            context: context,
+            image: ImageConstant.share,
+            title: 'Share',
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Photo Locker ${(Platform.isIOS) ? "V ${controller.appVersionName.value}" : "V ${controller.appVersionName.value}(${controller.appVersionCode.value})"}',
+            style: TextStyle(color: Colors.black, fontSize: 14),
+          ),
+          Text(
+            '© ${DateTime.now().year} Falcon Solutions',
+            style: TextStyle(color: Colors.black, fontSize: 14),
           ),
         ],
+      ),
+    );
+  }
+
+  settingWidget(
+      {required BuildContext context,
+      String? title,
+      void Function()? onTap,
+      Widget? widget,
+      String? image}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        color: Colors.white,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: Image.asset(
+                image!,
+                height: 40,
+              ),
+            ),
+            (!isNullEmptyOrFalse(widget)) ? widget! : Text(title!),
+          ],
+        ),
       ),
     );
   }
