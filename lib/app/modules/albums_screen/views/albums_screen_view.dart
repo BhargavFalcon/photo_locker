@@ -88,13 +88,19 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                             image: DecorationImage(
                               image: (controller.albumList[index]
                                       .albumImagesList!.isNotEmpty)
-                                  ? FileImage(File(controller
-                                      .albumList[index].albumImagesList!
-                                      .where((element) =>
-                                          element.mediumType ==
-                                          MediumType.image)
-                                      .last
-                                      .imagePath!))
+                                  ? (controller
+                                          .albumList[index].albumImagesList!
+                                          .any((element) =>
+                                              element.mediumType ==
+                                              MediumType.image))
+                                      ? FileImage(File(controller
+                                          .albumList[index].albumImagesList!
+                                          .where((element) =>
+                                              element.mediumType ==
+                                              MediumType.image)
+                                          .last
+                                          .imagePath!))
+                                      : AssetImage(ImageConstant.albumDemo)
                                   : AssetImage(ImageConstant.albumDemo),
                               fit: BoxFit.cover,
                             ),
@@ -214,6 +220,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
           onPressed: (controller.isEdit.value == true)
               ? null
               : () {
+                  controller.albumController.value.clear();
                   albumWidget(
                     context: context,
                     title: 'Add album',

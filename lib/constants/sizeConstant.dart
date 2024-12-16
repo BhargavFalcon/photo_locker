@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
-import '../main.dart';
+import 'package:photo_locker/constants/progress_dialog_utils.dart';
+import 'package:photo_locker/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MySize {
   static late MediaQueryData _mediaQueryData;
@@ -229,21 +229,21 @@ String formatNumber(double number) {
   }
 }
 
-// urlLauncher({required Uri url, String name = "", String? error}) async {
-//   try {
-//     if (!await launchUrl(
-//       url,
-//       mode: LaunchMode.externalApplication,
-//     )) {
-//       await getIt<CustomDialogs>().getDialog(
-//           title: "Error", desc: error ?? "Unable to find $name in your device");
-//     }
-//   } catch (e) {
-//     print(e);
-//     await getIt<CustomDialogs>().getDialog(
-//         title: "Error", desc: error ?? "Unable to find $name in your device");
-//   }
-// }
+urlLauncher({required Uri url, String name = "", String? error}) async {
+  try {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      await getIt<CustomDialogs>().getDialog(
+          title: "Error", desc: error ?? "Unable to find $name in your device");
+    }
+  } catch (e) {
+    print(e);
+    await getIt<CustomDialogs>().getDialog(
+        title: "Error", desc: error ?? "Unable to find $name in your device");
+  }
+}
 
 void hideCircularDialog(BuildContext context) {
   Get.back();

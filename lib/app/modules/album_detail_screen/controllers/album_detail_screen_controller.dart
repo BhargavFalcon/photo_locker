@@ -18,7 +18,7 @@ class AlbumDetailScreenController extends GetxController {
   RxList<Medium> albumImagesList = <Medium>[].obs;
   RxList<ImageAlbumModel> imageList = <ImageAlbumModel>[].obs;
   RxList<ImageAlbumModel> videoList = <ImageAlbumModel>[].obs;
-
+  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   @override
   void onInit() {
     if (Get.arguments != null) {

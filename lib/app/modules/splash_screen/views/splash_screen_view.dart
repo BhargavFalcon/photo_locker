@@ -40,7 +40,7 @@ class SplashScreenView extends GetWidget<SplashScreenController> {
                     " Locker",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: MySize.getHeight(35),
+                        fontSize: MySize.getHeight(30),
                         fontWeight: FontWeight.normal),
                   )
                 ],

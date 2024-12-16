@@ -18,7 +18,7 @@ class PrefConstant {
       : "ca-app-pub-3510832308267643/6553015344";
 
   static String shareText =
-      "Find & Share the most beautiful and romantic Love Shayaris. Download Love Shayri app now: ${(Platform.isAndroid) ? "https://play.google.com/store/apps/details?id=com.falconapps.loveshayari" : "https://itunes.apple.com/us/app/id1644894456?ls=1&mt=8"}";
+      "Keep secure your photos & videos with Photo Locker,Download now ${(Platform.isAndroid) ? "https://play.google.com/store/apps/details?id=com.falconapps.loveshayari" : "https://itunes.apple.com/us/app/id1343665010?ls=1&mt=8"}";
 }
 
 class ArgumentConstants {
@@ -53,4 +53,7 @@ class ImageConstant {
   static const String facebook = "${settings}Facebook.png";
   static const String twitter = "${settings}Twitter.png";
   static const String share = "${settings}Share_Settings.png";
+  static const String addGallery = "${detailsScreenPath}Add_Photo.png";
+  static const String addCamera = "${detailsScreenPath}Add_Video.png";
+
 }

@@ -9,6 +9,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_locker/constants/auth_bio_metric_widget.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../routes/app_pages.dart';
 import '../controllers/setting_screen_controller.dart';
@@ -20,9 +22,14 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(ImageConstant.back),
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(ImageConstant.back),
+          ),
         ),
         title: const Text('Settings', style: TextStyle(color: Colors.white)),
         actions: [
@@ -103,7 +110,13 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
               height: 20,
             ),
             settingWidget(
-              onTap: () {},
+              onTap: () {
+                final Uri _emailLaunchUri = Uri(
+                    scheme: "mailto",
+                    path: "contact@falconsolutions.co",
+                    queryParameters: {"subject": "Contact : Photo Locker"});
+                launchUrl(_emailLaunchUri);
+              },
               context: context,
               image: ImageConstant.contacts,
               title: 'Contact ',
@@ -123,7 +136,11 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
               height: 20,
             ),
             settingWidget(
-              onTap: () {},
+              onTap: () {
+                Uri uri =
+                    Uri.parse("https://www.facebook.com/falconsolutions/");
+                urlLauncher(url: uri, name: "Facebook");
+              },
               context: context,
               image: ImageConstant.facebook,
               title: 'Facebook',
@@ -134,7 +151,10 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
               height: 0,
             ),
             settingWidget(
-              onTap: () {},
+              onTap: () {
+                Uri uri = Uri.parse("https://twitter.com/FalconSolCo");
+                urlLauncher(url: uri, name: "Twitter");
+              },
               context: context,
               image: ImageConstant.twitter,
               title: 'Twitter',
@@ -145,7 +165,9 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
               height: 0,
             ),
             settingWidget(
-              onTap: () {},
+              onTap: () {
+                Share.share(PrefConstant.shareText);
+              },
               context: context,
               image: ImageConstant.share,
               title: 'Share',

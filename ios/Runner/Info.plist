@@ -32,6 +32,12 @@
 	<string>Main</string>
 	<key>NSFaceIDUsageDescription</key>
     <string>$(PRODUCT_NAME) uses Face ID to provide secure authentication</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to upload images.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to your camera to capture photos.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>We need access to your microphone to record audio.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
