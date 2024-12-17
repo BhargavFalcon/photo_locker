@@ -31,6 +31,8 @@ class ArgumentConstants {
   static const albumModel = "albumModel";
   static const isSkip = "isSkip";
   static const isFirstTime = "isFirstTime";
+  static const isAdRemoved = "isAdRemoved";
+
 }
 
 class ImageConstant {
