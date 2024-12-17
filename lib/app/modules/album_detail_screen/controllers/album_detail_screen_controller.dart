@@ -68,6 +68,7 @@ class AlbumDetailScreenController extends GetxController {
 
   showImagePickerBottom({required BuildContext context, required Album album}) {
     RxList<int> selectedIndexes = <int>[].obs;
+    RxInt totalLength = albumModel.value.albumImagesList!.length.obs;
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -168,7 +169,6 @@ class AlbumDetailScreenController extends GetxController {
                                 update();
                               });
                               await Future.delayed(Duration(seconds: 1));
-
                               List<MediumToDelete> mediumToDelete =
                                   selectedMedia
                                       .map((e) =>
@@ -196,8 +196,15 @@ class AlbumDetailScreenController extends GetxController {
                           return InkWell(
                             onTap: () {
                               if (selectedIndexes.contains(index)) {
+                                totalLength.value = totalLength.value - 1;
                                 selectedIndexes.remove(index);
                               } else {
+                                totalLength.value = totalLength.value + 1;
+                                if (totalLength.value > 10) {
+                                  Get.snackbar("Error",
+                                      "Max 10 Photos or videos allowed into free version");
+                                  return;
+                                }
                                 selectedIndexes.add(index);
                               }
                               setState(() {});

@@ -223,6 +223,10 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
               ? null
               : () {
                   controller.albumController.value.clear();
+                  if (controller.albumList.length >= 1) {
+                    unlockWidget(context: context);
+                    return;
+                  }
                   albumWidget(
                     context: context,
                     title: 'Add album',
@@ -387,4 +391,97 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
       },
     );
   }
+}
+
+unlockWidget({
+  required BuildContext context,
+}) {
+  return showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        titlePadding: EdgeInsets.zero,
+        insetPadding: EdgeInsets.zero,
+        actionsPadding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content: Container(
+          width: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text('Unlock PRO',
+                    style: TextStyle(color: Colors.black, fontSize: 18)),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'To add more albums \nget the PRO version',
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+              ),
+              SizedBox(height: 30),
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Get.toNamed(Routes.SETTING_SCREEN);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(5),
+                          ),
+                        ),
+                        height: 45,
+                        child: Center(
+                          child: Text('Unlock',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(5),
+                          ),
+                        ),
+                        height: 45,
+                        child: Center(
+                          child: Text('Cancel',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
