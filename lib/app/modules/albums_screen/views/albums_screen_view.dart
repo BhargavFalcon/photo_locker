@@ -62,7 +62,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                 child: Text(
                   textAlign: TextAlign.center,
                   'Click on the + button to add \nnew album',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 18),
                 ),
               )
             : GridView.builder(
@@ -151,6 +151,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                                           CupertinoActionSheetAction(
                                             onPressed: () {
                                               Navigator.pop(context);
+                                              controller.isEdit.value = false;
                                               albumWidget(
                                                   index: index,
                                                   isEdit: true,
@@ -173,6 +174,7 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                                                   controller.albumList
                                                       .map((e) => e.toJson())
                                                       .toList());
+                                              controller.isEdit.value = false;
                                               Navigator.pop(context);
                                             },
                                             child: Text('Delete',

@@ -96,11 +96,17 @@ class AlbumDetailScreenController extends GetxController {
                         album.name ?? "",
                         style: TextStyle(color: Colors.white),
                       ),
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () {
+                      leading: InkWell(
+                        onTap: () {
                           Get.back();
                         },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            ImageConstant.back,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                       actions: [
                         if (selectedIndexes.isNotEmpty)
@@ -239,7 +245,7 @@ class AlbumDetailScreenController extends GetxController {
                                     right: 5,
                                     child: Icon(
                                       Icons.check_circle,
-                                      color: Colors.white,
+                                      color: Colors.green,
                                     ),
                                   ),
                               ],

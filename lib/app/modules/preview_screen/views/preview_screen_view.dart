@@ -126,11 +126,17 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                     children: [
                       AppBar(
                         backgroundColor: Colors.blue,
-                        leading: IconButton(
-                          onPressed: () {
+                        leading: InkWell(
+                          onTap: () {
                             Get.back();
                           },
-                          icon: Icon(Icons.arrow_back, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              ImageConstant.back,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                         title: Text(
                           '${controller.currentIndex.value + 1}/${controller.previewList.length}',
@@ -227,7 +233,6 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                             IconButton(
                                 onPressed: () {
                                   int index = controller.currentIndex.value;
-
                                   controller.update();
                                   if (Get.isRegistered<
                                       AlbumDetailScreenController>()) {
@@ -270,7 +275,6 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                     albumsScreenController.albumList.refresh();
                                     albumsScreenController.update();
                                   }
-
                                   if (controller.pageController.page ==
                                       controller.previewList.length - 1) {
                                     controller.currentIndex.value =
@@ -279,6 +283,9 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                         controller.previewList.length - 2);
                                   }
                                   controller.previewList.removeAt(index);
+                                  if (controller.previewList.length == 0) {
+                                    Get.back();
+                                  }
                                 },
                                 icon: Icon(Icons.delete)),
                           ],

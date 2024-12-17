@@ -23,7 +23,18 @@ class ChangePasscodeScreenView
     MySize().init(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('ChangePasscodeScreenView'),
+          backgroundColor: Colors.blue,
+          title: const Text('Change Passcode',
+              style: TextStyle(color: Colors.white, fontSize: 20)),
+          leading: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(ImageConstant.back),
+            ),
+          ),
           centerTitle: true,
         ),
         body: Padding(
@@ -130,7 +141,10 @@ class ChangePasscodeScreenView
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Text(title,
-                        style: TextStyle(color: Colors.black, fontSize: 18)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal)),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -405,7 +419,8 @@ customWidget(
       child: Container(
         child: Row(
           children: [
-            Text(text, style: TextStyle(fontSize: 18)),
+            Text(text,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
             Spacer(),
             showIcon ? Icon(Icons.check, color: Colors.blue) : Container(),
             Spacing.width(10),

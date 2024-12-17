@@ -414,11 +414,17 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                       'Photo Gallery',
                       style: TextStyle(color: Colors.white),
                     ),
-                    leading: IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: () {
+                    leading: InkWell(
+                      onTap: () {
                         Get.back();
                       },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          ImageConstant.back,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                     centerTitle: true,
                   ),

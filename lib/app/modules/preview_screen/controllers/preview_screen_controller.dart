@@ -52,9 +52,12 @@ class PreviewScreenController extends GetxController {
 
   @override
   void onClose() {
-    if (videoPlayerController.value.isInitialized) {
-      videoPlayerController.dispose();
+    if (previewType.value == 'video') {
+      if (videoPlayerController.value.isInitialized) {
+        videoPlayerController.dispose();
+      }
     }
+
     super.onClose();
   }
 }
