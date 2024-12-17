@@ -14,7 +14,6 @@ class PreviewScreenController extends GetxController {
   RxString previewType = ''.obs;
   RxInt currentIndex = 0.obs;
   RxBool isHide = false.obs;
-  late VideoPlayerController videoPlayerController;
   RxBool isPlaying = true.obs;
   late FlickManager flickManager;
   late PageController pageController;
@@ -41,23 +40,20 @@ class PreviewScreenController extends GetxController {
           .toList();
     }
     if (previewType.value == 'video') {
-      videoPlayerController = VideoPlayerController.file(
+      previewList[currentIndex.value].videoPlayerController =
+          VideoPlayerController.file(
         File(previewList[currentIndex.value].imagePath!),
-      );
-      flickManager = FlickManager(
-          videoPlayerController: videoPlayerController, autoPlay: true);
+      )..initialize().then((value) {
+              previewList[currentIndex.value].videoPlayerController!.play();
+              isPlaying.value = true;
+            });
+      isPlaying.value = true;
     }
     super.onInit();
   }
 
   @override
   void onClose() {
-    if (previewType.value == 'video') {
-      if (videoPlayerController.value.isInitialized) {
-        videoPlayerController.dispose();
-      }
-    }
-
     super.onClose();
   }
 }

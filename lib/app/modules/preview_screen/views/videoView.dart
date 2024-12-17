@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flick_video_player/flick_video_player.dart';
@@ -5,66 +6,86 @@ import 'package:flutter/material.dart';
 import 'package:photo_locker/model/albumModel.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoView extends StatefulWidget {
-  const VideoView({super.key, required this.imageAlbumModel});
+import '../../../../constants/sizeConstant.dart';
 
-  final ImageAlbumModel imageAlbumModel;
+class VideoView extends StatefulWidget {
+  final ImageAlbumModel item;
+
+  VideoView({required this.item});
 
   @override
   State<VideoView> createState() => _VideoViewState();
 }
 
 class _VideoViewState extends State<VideoView> {
-  VideoPlayerController? _controller;
-  FlickManager? _flickManager;
 
-  bool _isDisposed = false;
+  late VideoPlayerController videoPlayerController;
+  bool isMuted = false;
+  List likeList = [];
+  bool isVideoInit = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeVideoPlayer();
+    initializePlayer();
   }
 
-  void _initializeVideoPlayer() async {
-    try {
-      _controller = VideoPlayerController.file(
-        File(widget.imageAlbumModel.imagePath!),
-      );
+  void initializePlayer() {
 
-      await _controller!.initialize();
-      _flickManager = FlickManager(
-        videoPlayerController: _controller!,
-        autoPlay: true,
-      );
+    widget.item.videoPlayerController = VideoPlayerController.file(
+      File(widget.item.imagePath!),
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    );
 
-      if (!_isDisposed) {
-        setState(() {});
-      }
-    } catch (error) {
-      print("Error initializing video player: $error");
+    isVideoInit = true;
+    if (mounted) {
+      setState(() {});
     }
+
+    widget.item.videoPlayerController!.initialize().then((_) {
+      if (mounted) {
+        setState(() {});
+        widget.item.videoPlayerController!.play();
+
+
+        widget.item.videoPlayerController!.addListener(() {
+
+          widget.item.videoPlayerController!.position.then((value) {
+            if (mounted && value!.inSeconds == 0) {
+              widget.item.videoPlayerController!.play();
+            }
+            if (mounted) {
+              setState(() {});
+            }
+          });
+        });
+      }
+    }).catchError((error) {
+      print("Error initializing VideoPlayerController: $error");
+    });
   }
 
   @override
-  void dispose() {
-    _isDisposed = true;
-
-    if (_controller != null) {
-      _controller?.pause();
-      _controller?.dispose();
-    }
-    if (_flickManager != null) {
-      _flickManager?.dispose();
-    }
-
+  Future<void> dispose() async {
     super.dispose();
+    if (widget.item.videoPlayerController != null) {
+      await widget.item.videoPlayerController!.dispose();
+      widget.item.videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(""));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return (_flickManager != null)
-        ? FlickVideoPlayer(flickManager: _flickManager!)
-        : Center(child: CircularProgressIndicator());
+    return (widget.item.videoPlayerController == null)?CircularProgressIndicator(): VideoPlayer(widget.item.videoPlayerController!);
+  }
+
+  void simulateProgress(ValueNotifier<double> progressNotifier) {
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
+      if (progressNotifier.value >= 1.0) {
+        timer.cancel();
+      } else {
+        progressNotifier.value += 0.05;
+      }
+    });
   }
 }

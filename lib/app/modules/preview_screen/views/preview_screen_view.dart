@@ -7,10 +7,12 @@ import 'package:get/get.dart';
 import 'package:photo_locker/app/modules/album_detail_screen/controllers/album_detail_screen_controller.dart';
 import 'package:photo_locker/app/modules/albums_screen/controllers/albums_screen_controller.dart';
 import 'package:photo_locker/app/modules/preview_screen/controllers/preview_screen_controller.dart';
+import 'package:photo_locker/app/modules/preview_screen/views/videoView.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/main.dart';
 import 'package:photo_locker/model/albumModel.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:smooth_video_progress/smooth_video_progress.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../constants/stringConstants.dart';
@@ -32,92 +34,149 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                 controller: controller.pageController,
                 itemCount: controller.previewList.length,
                 onPageChanged: (index) {
+                  controller.previewList[controller.currentIndex.value]
+                      .videoPlayerController!
+                      .pause();
                   controller.currentIndex.value = index;
                   ImageAlbumModel imageAlbumModel =
                       controller.previewList[index];
                   if (controller.previewType.value == 'video') {
-                    if (controller.videoPlayerController.value.isInitialized) {
-                      controller.videoPlayerController.pause();
-                    }
-                    controller.videoPlayerController =
-                        VideoPlayerController.file(
-                      File(imageAlbumModel.imagePath!),
-                    )..initialize().then((_) {
-                            controller.flickManager = FlickManager(
-                              videoPlayerController:
-                                  controller.videoPlayerController,
-                              autoPlay: true,
-                            );
-                            controller.update();
-                          });
+                    controller.isPlaying.value = true;
                   }
                 },
                 itemBuilder: (context, index) {
+                  ImageAlbumModel imageAlbumModel =
+                      controller.previewList[index];
                   return InkWell(
-                    onTap: () {
-                      controller.isHide.value = !controller.isHide.value;
-                    },
-                    child: (controller.previewType.value == 'image')
-                        ? Image.file(
-                            height: MySize.screenHeight,
-                            width: double.infinity,
-                            fit: BoxFit.contain,
-                            File(controller
-                                .previewList[controller.currentIndex.value]
-                                .imagePath!),
-                          )
-                        : FlickVideoPlayer(
-                            flickManager: controller.flickManager,
-                            flickVideoWithControls: FlickVideoWithControls(
-                              videoFit: BoxFit.contain,
-                              controls: (controller.isHide.isFalse)
-                                  ? null
-                                  : Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            color: Colors.blue.shade200,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              FlickCurrentPosition(
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                              ),
-                                              Expanded(
-                                                child: FlickVideoProgressBar(
-                                                  flickProgressBarSettings:
-                                                      FlickProgressBarSettings(
-                                                    height: 8,
-                                                    handleRadius: 8,
-                                                    padding: EdgeInsets.all(10),
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    bufferedColor: Colors.white,
-                                                    playedColor:
-                                                        Colors.blue.shade700,
-                                                    handleColor:
-                                                        Colors.blue.shade700,
-                                                  ),
+                      onTap: () {
+                        controller.isHide.value = !controller.isHide.value;
+                      },
+                      child: (controller.previewType.value == 'image')
+                          ? Image.file(
+                              height: MySize.screenHeight,
+                              width: double.infinity,
+                              fit: BoxFit.contain,
+                              File(controller
+                                  .previewList[controller.currentIndex.value]
+                                  .imagePath!),
+                            )
+                          : Stack(
+                              children: [
+                                VideoView(item: imageAlbumModel),
+                                (!controller.isHide.value)
+                                    ? SizedBox()
+                                    : Positioned(
+                                        bottom: 90,
+                                        child: (imageAlbumModel
+                                                    .videoPlayerController ==
+                                                null)
+                                            ? SizedBox()
+                                            : Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.blue.shade300,
+                                                ),
+                                                child: SizedBox(
+                                                  width: MySize.screenWidth,
+                                                  child: SmoothVideoProgress(
+                                                      controller: imageAlbumModel
+                                                          .videoPlayerController!,
+                                                      builder: (context,
+                                                          position,
+                                                          duration,
+                                                          child) {
+                                                        String formatTime(
+                                                            Duration time) {
+                                                          String twoDigits(
+                                                                  int n) =>
+                                                              n
+                                                                  .toString()
+                                                                  .padLeft(
+                                                                      2, '0');
+                                                          final minutes =
+                                                              twoDigits(time
+                                                                  .inMinutes
+                                                                  .remainder(
+                                                                      60));
+                                                          final seconds =
+                                                              twoDigits(time
+                                                                  .inSeconds
+                                                                  .remainder(
+                                                                      60));
+                                                          return "$minutes:$seconds";
+                                                        }
+
+                                                        return Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                          8.0),
+                                                              child: Text(
+                                                                formatTime(
+                                                                    position),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Slider(
+                                                                inactiveColor:
+                                                                    Colors
+                                                                        .white,
+                                                                activeColor:
+                                                                    Colors.blue
+                                                                        .shade800,
+                                                                onChangeStart: (_) =>
+                                                                    imageAlbumModel
+                                                                        .videoPlayerController!
+                                                                        .pause(),
+                                                                onChangeEnd: (_) =>
+                                                                    imageAlbumModel
+                                                                        .videoPlayerController!
+                                                                        .play(),
+                                                                onChanged:
+                                                                    (value) {
+                                                                  print(value);
+                                                                  imageAlbumModel
+                                                                      .videoPlayerController!
+                                                                      .seekTo(Duration(
+                                                                          milliseconds:
+                                                                              value.toInt()));
+                                                                },
+                                                                value: position
+                                                                    .inMilliseconds
+                                                                    .toDouble(),
+                                                                min: 0,
+                                                                max: duration
+                                                                    .inMilliseconds
+                                                                    .toDouble(),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      right:
+                                                                          8.0),
+                                                              child: Text(
+                                                                formatTime(
+                                                                    duration),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }),
                                                 ),
                                               ),
-                                              FlickTotalDuration(
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Spacing.height(120)
-                                      ],
-                                    ),
-                            ),
-                          ),
-                  );
+                                      ),
+                              ],
+                            ));
                 },
               ),
             ),
@@ -225,12 +284,15 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                               InkWell(
                                 onTap: () {
                                   if (controller.previewType.value == 'video') {
-                                    if (controller.videoPlayerController.value
+                                    ImageAlbumModel videoView =
+                                        controller.previewList[
+                                            controller.currentIndex.value];
+                                    if (videoView.videoPlayerController!.value
                                         .isPlaying) {
-                                      controller.videoPlayerController.pause();
+                                      videoView.videoPlayerController!.pause();
                                       controller.isPlaying.value = false;
                                     } else {
-                                      controller.videoPlayerController.play();
+                                      videoView.videoPlayerController!.play();
                                       controller.isPlaying.value = true;
                                     }
                                     controller.update();
@@ -356,7 +418,9 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                             if (controller.previewList.length ==
                                                 0) {
                                               Get.back();
+                                              return;
                                             }
+                                            Navigator.pop(context);
                                           },
                                           child: Text('Delete',
                                               style: TextStyle(

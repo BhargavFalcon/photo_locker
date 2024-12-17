@@ -34,6 +34,8 @@ class ImageAlbumModel {
   String? imagePath;
   String? thumbnail;
   MediumType? mediumType;
+  VideoPlayerController? videoPlayerController;
+  FlickManager? flickManager;
   int? duration;
 
   ImageAlbumModel(
@@ -41,6 +43,8 @@ class ImageAlbumModel {
       this.imagePath,
       this.thumbnail,
       this.mediumType,
+      this.videoPlayerController,
+      this.flickManager,
       this.duration});
 
   ImageAlbumModel.fromJson(Map<String, dynamic> json) {
