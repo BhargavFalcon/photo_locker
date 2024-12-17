@@ -127,7 +127,11 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
               height: 0,
             ),
             settingWidget(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.HELP_SCREEN, arguments: {
+                  ArgumentConstants.isSkip: false,
+                });
+              },
               context: context,
               image: ImageConstant.help,
               title: 'Help',

@@ -16,7 +16,21 @@ class HelpScreenView extends GetWidget<HelpScreenController> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          leading: (controller.isSkip.value == false)
+              ? InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      ImageConstant.blue_back,
+                    ),
+                  ),
+                )
+              : null,
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
