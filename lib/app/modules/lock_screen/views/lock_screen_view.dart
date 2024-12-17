@@ -75,8 +75,19 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                                 lockValue: []);
                                             box.write(ArgumentConstants.setLock,
                                                 lockModel.toJson());
-                                            Get.offAllNamed(
-                                                Routes.ALBUMS_SCREEN);
+                                            if (!isNullEmptyOrFalse(box.read(
+                                                ArgumentConstants
+                                                    .isFirstTime))) {
+                                              Get.offAllNamed(
+                                                  Routes.ALBUMS_SCREEN);
+                                            } else {
+                                              Get.offAllNamed(
+                                                  Routes.HELP_SCREEN,
+                                                  arguments: {
+                                                    ArgumentConstants.isSkip:
+                                                        true
+                                                  });
+                                            }
                                           } else {
                                             controller.faceIdButton.value =
                                                 true;
@@ -119,7 +130,13 @@ class LockScreenView extends GetWidget<LockScreenController> {
                         onInputComplete: (List<int> input) {
                           if (controller.lockModel.value.lockValue!.join("") ==
                               input.join("")) {
-                            Get.offAllNamed(Routes.ALBUMS_SCREEN);
+                            if (!isNullEmptyOrFalse(
+                                box.read(ArgumentConstants.isFirstTime))) {
+                              Get.offAllNamed(Routes.ALBUMS_SCREEN);
+                            } else {
+                              Get.offAllNamed(Routes.HELP_SCREEN,
+                                  arguments: {ArgumentConstants.isSkip: true});
+                            }
                           } else {
                             Get.snackbar('Error', 'Invalid Pattern');
                             Vibration.vibrate();
@@ -164,7 +181,14 @@ class LockScreenView extends GetWidget<LockScreenController> {
                             if (controller.lockModel.value.lockValue!
                                     .join("") ==
                                 value) {
-                              Get.offAllNamed(Routes.ALBUMS_SCREEN);
+                              if (!isNullEmptyOrFalse(
+                                  box.read(ArgumentConstants.isFirstTime))) {
+                                Get.offAllNamed(Routes.ALBUMS_SCREEN);
+                              } else {
+                                Get.offAllNamed(Routes.HELP_SCREEN, arguments: {
+                                  ArgumentConstants.isSkip: true
+                                });
+                              }
                             } else {
                               controller.passwordController.value.text = "";
                               Vibration.vibrate();
@@ -183,7 +207,15 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                 );
                                 box.write(ArgumentConstants.setLock,
                                     lockModel.toJson());
-                                Get.offAllNamed(Routes.ALBUMS_SCREEN);
+                                if (!isNullEmptyOrFalse(
+                                    box.read(ArgumentConstants.isFirstTime))) {
+                                  Get.offAllNamed(Routes.ALBUMS_SCREEN);
+                                } else {
+                                  Get.offAllNamed(Routes.HELP_SCREEN,
+                                      arguments: {
+                                        ArgumentConstants.isSkip: true
+                                      });
+                                }
                               } else {
                                 controller.passwordController.value.text = "";
                                 Vibration.vibrate();

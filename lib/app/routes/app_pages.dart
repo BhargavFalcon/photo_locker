@@ -6,6 +6,8 @@ import '../modules/albums_screen/bindings/albums_screen_binding.dart';
 import '../modules/albums_screen/views/albums_screen_view.dart';
 import '../modules/change_passcode_screen/bindings/change_passcode_screen_binding.dart';
 import '../modules/change_passcode_screen/views/change_passcode_screen_view.dart';
+import '../modules/help_screen/bindings/help_screen_binding.dart';
+import '../modules/help_screen/views/help_screen_view.dart';
 import '../modules/lock_screen/bindings/lock_screen_binding.dart';
 import '../modules/lock_screen/views/lock_screen_view.dart';
 import '../modules/preview_screen/bindings/preview_screen_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.SPLASH_SCREEN,
       page: () => const SplashScreenView(),
       binding: SplashScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.HELP_SCREEN,
+      page: () => const HelpScreenView(),
+      binding: HelpScreenBinding(),
     ),
   ];
 }

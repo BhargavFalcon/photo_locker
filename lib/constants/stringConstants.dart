@@ -29,6 +29,8 @@ class ArgumentConstants {
   static const bioMetricTypeList = "bioMetricTypeList";
   static const albumList = "albumList";
   static const albumModel = "albumModel";
+  static const isSkip = "isSkip";
+  static const isFirstTime = "isFirstTime";
 }
 
 class ImageConstant {
@@ -36,7 +38,8 @@ class ImageConstant {
   static const assetsPath = "assets/";
   static const String homePath = "assets/Home/";
   static const String detailsScreenPath = "assets/Detail Screen/";
-  static const String settings = "assets/Settings/";
+  static const String settingsPath = "assets/Settings/";
+  static const String helpPath = "assets/Help/";
 
   static const String Splash = "${splashPath}Splash_X.png";
   static const String bg = "${assetsPath}Bg.png";
@@ -46,14 +49,18 @@ class ImageConstant {
   static const String photoTab = "${detailsScreenPath}Tab_Photo.png";
   static const String videoTab = "${detailsScreenPath}Tab_Video.png";
   static const String back = "${detailsScreenPath}Back.png";
-  static const String premium = "${settings}Premium.png";
-  static const String passcode = "${settings}Passcode.png";
-  static const String contacts = "${settings}Contacts.png";
-  static const String help = "${settings}Help.png";
-  static const String facebook = "${settings}Facebook.png";
-  static const String twitter = "${settings}Twitter.png";
-  static const String share = "${settings}Share_Settings.png";
+  static const String premium = "${settingsPath}Premium.png";
+  static const String passcode = "${settingsPath}Passcode.png";
+  static const String contacts = "${settingsPath}Contacts.png";
+  static const String help = "${settingsPath}Help.png";
+  static const String facebook = "${settingsPath}Facebook.png";
+  static const String twitter = "${settingsPath}Twitter.png";
+  static const String share = "${settingsPath}Share_Settings.png";
   static const String addGallery = "${detailsScreenPath}Add_Photo.png";
   static const String addCamera = "${detailsScreenPath}Add_Video.png";
-
+  static const String help_1 = "${helpPath}Help_1.png";
+  static const String help_2 = "${helpPath}Help_2.png";
+  static const String help_3 = "${helpPath}Help_3.png";
+  static const String help_4 = "${helpPath}Help_4.png";
+  static const String blue_back = "${helpPath}Back_Blue.png";
 }
