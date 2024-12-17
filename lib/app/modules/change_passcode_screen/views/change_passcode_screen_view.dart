@@ -74,7 +74,7 @@ class ChangePasscodeScreenView
                   onTap: () async {
                     if (controller.authBioMetricWidget.supportState ==
                         SupportState.unSupported) {
-                      Get.snackbar('Error', 'Biometric not supported');
+                      toastMessage(message: "Biometric not supported");
                     } else {
                       if (controller.authBioMetricWidget.availableBiometrics
                               ?.isNotEmpty ??
@@ -213,15 +213,13 @@ class ChangePasscodeScreenView
                                   Get.offAllNamed(Routes.LOCK_SCREEN);
                                   Get.back();
                                 } else {
-                                  Get.snackbar(
-                                      'Error', 'Password does not match');
+                                  toastMessage(message: "Password does not match");
                                 }
                               } else {
-                                Get.snackbar(
-                                    'Error', 'Please confirm password');
+                                toastMessage(message: "Please confirm password");
                               }
                             } else {
-                              Get.snackbar('Error', 'Please enter password');
+                              toastMessage(message: "Please enter password");
                             }
                           },
                           child: Container(
@@ -333,7 +331,7 @@ class ChangePasscodeScreenView
                             Get.offAllNamed(Routes.LOCK_SCREEN);
                             Get.back();
                           } else {
-                            Get.snackbar('Error', 'Pattern does not match');
+                            toastMessage(message: "Pattern does not match");
                             controller.pattern.clear();
                             controller.confirmPattern.value = false;
                           }
@@ -348,11 +346,10 @@ class ChangePasscodeScreenView
                         child: InkWell(
                           onTap: () {
                             if (controller.pattern.isEmpty) {
-                              Get.snackbar('Error', 'Please draw pattern');
+                              toastMessage(message:"Please draw pattern" );
                             } else {
                               if (controller.confirmPattern.value == true) {
-                                Get.snackbar(
-                                    'error', 'Please Draw confirm pattern');
+                                toastMessage(message: "Please Draw confirm pattern");
                                 controller.pattern.clear();
                                 controller.confirmPattern.value = false;
                               }

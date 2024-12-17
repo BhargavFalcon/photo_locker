@@ -160,8 +160,9 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                 ).then(
                                   (value) {
                                     if (value == true) {
-                                      Get.snackbar('Success',
-                                          'Image saved successfully');
+                                      toastMessage(
+                                          message:
+                                              "Image restored to Photos App");
                                     }
                                   },
                                 );
@@ -174,8 +175,9 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                 ).then(
                                   (value) {
                                     if (value == true) {
-                                      Get.snackbar('Success',
-                                          'Video saved successfully');
+                                      toastMessage(
+                                          message:
+                                              "Video restored to Photos App");
                                     }
                                   },
                                 );
@@ -206,13 +208,18 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                 icon:
                                     Icon(Icons.ios_share, color: Colors.white)),
                             IconButton(
-                              onPressed: () {
-                                controller.pageController.previousPage(
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeIn,
-                                );
-                              },
-                              icon: Icon(Icons.arrow_back, color: Colors.white),
+                              onPressed: (controller.currentIndex.value != 0)
+                                  ? () {
+                                      controller.pageController.previousPage(
+                                        duration: Duration(milliseconds: 300),
+                                        curve: Curves.easeIn,
+                                      );
+                                    }
+                                  : null,
+                              icon: Icon(Icons.arrow_back,
+                                  color: (controller.currentIndex.value != 0)
+                                      ? Colors.white
+                                      : Colors.white.withOpacity(0.5)),
                             ),
                             if (controller.previewType.value == 'video') ...[
                               InkWell(
@@ -238,14 +245,20 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                               ),
                             ],
                             IconButton(
-                              onPressed: () {
-                                controller.pageController.nextPage(
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeIn,
-                                );
-                              },
+                              onPressed: (controller.currentIndex.value !=
+                                      controller.previewList.length - 1)
+                                  ? () {
+                                      controller.pageController.nextPage(
+                                        duration: Duration(milliseconds: 300),
+                                        curve: Curves.easeIn,
+                                      );
+                                    }
+                                  : null,
                               icon: Icon(Icons.arrow_forward,
-                                  color: Colors.white),
+                                  color: (controller.currentIndex.value !=
+                                          controller.previewList.length - 1)
+                                      ? Colors.white
+                                      : Colors.white.withOpacity(0.5)),
                             ),
                             IconButton(
                                 onPressed: () {
@@ -335,6 +348,9 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                                           .previewList.length -
                                                       2);
                                             }
+                                            toastMessage(
+                                                message:
+                                                    'Image Deleted Successfully');
                                             controller.previewList
                                                 .removeAt(index);
                                             if (controller.previewList.length ==

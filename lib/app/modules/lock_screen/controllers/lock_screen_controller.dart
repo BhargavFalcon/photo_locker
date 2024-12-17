@@ -33,7 +33,7 @@ class LockScreenController extends GetxController {
         authBioMetricWidget.checkBiometric();
         await authBioMetricWidget.getAvailableBiometrics();
         if (authBioMetricWidget.supportState == SupportState.unSupported) {
-          Get.snackbar('Error', 'Biometric not supported');
+          toastMessage(message: "Biometric not supported");
         } else {
           if (authBioMetricWidget.availableBiometrics?.isNotEmpty ?? false) {
             authBioMetricWidget.authenticateWithBiometrics().then((value) {
@@ -50,7 +50,7 @@ class LockScreenController extends GetxController {
               }
             });
           } else {
-            Get.snackbar('Error', 'Biometric not available');
+            toastMessage(message: "Biometric not available");
           }
         }
       });

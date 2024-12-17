@@ -292,15 +292,15 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                               ? () {
                                   if (controller
                                       .albumController.value.text.isEmpty) {
-                                    Get.snackbar(
-                                        'Error', 'Please enter album name');
+                                    toastMessage(
+                                        message: 'Please enter album name');
                                     return;
                                   }
                                   if (controller.albumList.any((element) =>
                                       element.albumName ==
                                       controller.albumController.value.text)) {
-                                    Get.snackbar(
-                                        'Error', 'Album already exists');
+                                    toastMessage(
+                                        message: 'Album already exists');
                                     return;
                                   }
                                   controller.albumList[index].albumName =
@@ -318,15 +318,15 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                               : () {
                                   if (controller
                                       .albumController.value.text.isEmpty) {
-                                    Get.snackbar(
-                                        'Error', 'Please enter album name');
+                                    toastMessage(
+                                        message: 'Please enter album name');
                                     return;
                                   }
                                   if (controller.albumList.any((element) =>
                                       element.albumName ==
                                       controller.albumController.value.text)) {
-                                    Get.snackbar(
-                                        'Error', 'Album already exists');
+                                    toastMessage(
+                                        message: 'Album already exists');
                                     return;
                                   }
                                   AlbumModel albumModel = AlbumModel(

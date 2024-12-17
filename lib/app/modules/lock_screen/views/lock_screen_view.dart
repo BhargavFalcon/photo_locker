@@ -57,8 +57,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                     if (controller
                                             .authBioMetricWidget.supportState ==
                                         SupportState.unSupported) {
-                                      Get.snackbar(
-                                          'Error', 'Biometric not supported');
+                                      toastMessage(message: "Biometric not supported");
                                     } else {
                                       if (controller
                                               .authBioMetricWidget
@@ -138,7 +137,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                   arguments: {ArgumentConstants.isSkip: true});
                             }
                           } else {
-                            Get.snackbar('Error', 'Invalid Pattern');
+                            toastMessage(message: "Invalid Pattern");
                             Vibration.vibrate();
                           }
                         },

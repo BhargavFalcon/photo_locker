@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:photo_locker/constants/progress_dialog_utils.dart';
 import 'package:photo_locker/main.dart';
@@ -284,4 +285,16 @@ class CircularDialog {
       },
     );
   }
+}
+
+toastMessage({required String message}) {
+  Fluttertoast.showToast(
+      msg:
+      "$message",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 2,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0);
 }

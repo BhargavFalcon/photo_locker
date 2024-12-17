@@ -84,7 +84,7 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
                 } else {
                   if (controller.authBioMetricWidget.supportState ==
                       SupportState.unSupported) {
-                    Get.snackbar('Error', 'Biometric not supported');
+                    toastMessage(message: "Biometric not supported");
                   } else {
                     if (controller.authBioMetricWidget.availableBiometrics
                             ?.isNotEmpty ??
@@ -270,7 +270,7 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
                             Get.back();
                             Get.toNamed(Routes.CHANGE_PASSCODE_SCREEN);
                           } else {
-                            Get.snackbar('Error', 'Pincode does not match');
+                            toastMessage(message: "Pin code does not match");
                             controller.passwordController.value.clear();
                           }
                         }
@@ -365,7 +365,7 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
                         Get.back();
                         Get.toNamed(Routes.CHANGE_PASSCODE_SCREEN);
                       } else {
-                        Get.snackbar('Error', 'Pattern does not match');
+                        toastMessage(message: "Pattern does not match");
                       }
                     },
                   ),

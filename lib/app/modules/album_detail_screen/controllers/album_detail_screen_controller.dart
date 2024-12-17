@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -201,8 +200,9 @@ class AlbumDetailScreenController extends GetxController {
                               } else {
                                 totalLength.value = totalLength.value + 1;
                                 if (totalLength.value > 10) {
-                                  Get.snackbar("Error",
-                                      "Max 10 Photos or videos allowed into free version");
+                                  toastMessage(
+                                      message:
+                                          "Max 10 Photos or videos allowed into free version");
                                   return;
                                 }
                                 selectedIndexes.add(index);
