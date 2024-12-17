@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:photo_locker/app/modules/preview_screen/controllers/preview_scre
 import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/main.dart';
 import 'package:photo_locker/model/albumModel.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../constants/stringConstants.dart';
@@ -185,11 +187,24 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                       ),
                       Spacer(),
                       Container(
-                        color: Colors.white,
-                        height: 100,
+                        color: Colors.blue,
+                        height: 80,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            IconButton(
+                                onPressed: () {
+                                  Share.shareXFiles(
+                                    [
+                                      XFile(controller
+                                          .previewList[
+                                              controller.currentIndex.value]
+                                          .imagePath!)
+                                    ],
+                                  );
+                                },
+                                icon:
+                                    Icon(Icons.ios_share, color: Colors.white)),
                             IconButton(
                               onPressed: () {
                                 controller.pageController.previousPage(
@@ -197,7 +212,7 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                   curve: Curves.easeIn,
                                 );
                               },
-                              icon: Icon(Icons.arrow_back_ios),
+                              icon: Icon(Icons.arrow_back, color: Colors.white),
                             ),
                             if (controller.previewType.value == 'video') ...[
                               InkWell(
@@ -218,6 +233,7 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                   controller.isPlaying.isTrue
                                       ? Icons.pause
                                       : Icons.play_arrow,
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -228,66 +244,126 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                   curve: Curves.easeIn,
                                 );
                               },
-                              icon: Icon(Icons.arrow_forward_ios),
+                              icon: Icon(Icons.arrow_forward,
+                                  color: Colors.white),
                             ),
                             IconButton(
                                 onPressed: () {
-                                  int index = controller.currentIndex.value;
-                                  controller.update();
-                                  if (Get.isRegistered<
-                                      AlbumDetailScreenController>()) {
-                                    AlbumDetailScreenController
-                                        albumDetailScreenController =
-                                        Get.find<AlbumDetailScreenController>();
-                                    albumDetailScreenController
-                                        .albumModel.value.albumImagesList!
-                                        .removeWhere((element) =>
-                                            element.id ==
-                                            controller.previewList[index].id);
-                                    albumDetailScreenController.imageList
-                                        .removeWhere((element) =>
-                                            element.id ==
-                                            controller.previewList[index].id);
-                                    albumDetailScreenController.videoList
-                                        .removeWhere((element) =>
-                                            element.id ==
-                                            controller.previewList[index].id);
-                                    albumDetailScreenController.update();
-                                  }
-                                  if (Get.isRegistered<
-                                      AlbumsScreenController>()) {
-                                    AlbumsScreenController
-                                        albumsScreenController =
-                                        Get.find<AlbumsScreenController>();
-                                    albumsScreenController.albumList
-                                        .firstWhere((element) =>
-                                            element.id ==
-                                            controller.albumModel.value.id)
-                                        .albumImagesList!
-                                        .removeWhere((element) =>
-                                            element.id ==
-                                            controller.previewList[index].id);
-                                    box.write(
-                                        ArgumentConstants.albumList,
-                                        albumsScreenController.albumList
-                                            .map((e) => e.toJson())
-                                            .toList());
-                                    albumsScreenController.albumList.refresh();
-                                    albumsScreenController.update();
-                                  }
-                                  if (controller.pageController.page ==
-                                      controller.previewList.length - 1) {
-                                    controller.currentIndex.value =
-                                        controller.previewList.length - 2;
-                                    controller.pageController.jumpToPage(
-                                        controller.previewList.length - 2);
-                                  }
-                                  controller.previewList.removeAt(index);
-                                  if (controller.previewList.length == 0) {
-                                    Get.back();
-                                  }
+                                  showCupertinoModalPopup(
+                                    barrierDismissible: true,
+                                    context: context,
+                                    builder: (context) => CupertinoActionSheet(
+                                      title: Text('Delete this item?',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey)),
+                                      actions: <CupertinoActionSheetAction>[
+                                        CupertinoActionSheetAction(
+                                          onPressed: () {
+                                            int index =
+                                                controller.currentIndex.value;
+                                            controller.update();
+                                            if (Get.isRegistered<
+                                                AlbumDetailScreenController>()) {
+                                              AlbumDetailScreenController
+                                                  albumDetailScreenController =
+                                                  Get.find<
+                                                      AlbumDetailScreenController>();
+                                              albumDetailScreenController
+                                                  .albumModel
+                                                  .value
+                                                  .albumImagesList!
+                                                  .removeWhere((element) =>
+                                                      element.id ==
+                                                      controller
+                                                          .previewList[index]
+                                                          .id);
+                                              albumDetailScreenController
+                                                  .imageList
+                                                  .removeWhere((element) =>
+                                                      element.id ==
+                                                      controller
+                                                          .previewList[index]
+                                                          .id);
+                                              albumDetailScreenController
+                                                  .videoList
+                                                  .removeWhere((element) =>
+                                                      element.id ==
+                                                      controller
+                                                          .previewList[index]
+                                                          .id);
+                                              albumDetailScreenController
+                                                  .update();
+                                            }
+                                            if (Get.isRegistered<
+                                                AlbumsScreenController>()) {
+                                              AlbumsScreenController
+                                                  albumsScreenController =
+                                                  Get.find<
+                                                      AlbumsScreenController>();
+                                              albumsScreenController.albumList
+                                                  .firstWhere((element) =>
+                                                      element.id ==
+                                                      controller
+                                                          .albumModel.value.id)
+                                                  .albumImagesList!
+                                                  .removeWhere((element) =>
+                                                      element.id ==
+                                                      controller
+                                                          .previewList[index]
+                                                          .id);
+                                              box.write(
+                                                  ArgumentConstants.albumList,
+                                                  albumsScreenController
+                                                      .albumList
+                                                      .map((e) => e.toJson())
+                                                      .toList());
+                                              albumsScreenController.albumList
+                                                  .refresh();
+                                              albumsScreenController.update();
+                                            }
+                                            if (controller
+                                                    .pageController.page ==
+                                                controller.previewList.length -
+                                                    1) {
+                                              controller.currentIndex.value =
+                                                  controller
+                                                          .previewList.length -
+                                                      2;
+                                              controller.pageController
+                                                  .jumpToPage(controller
+                                                          .previewList.length -
+                                                      2);
+                                            }
+                                            controller.previewList
+                                                .removeAt(index);
+                                            if (controller.previewList.length ==
+                                                0) {
+                                              Get.back();
+                                            }
+                                          },
+                                          child: Text('Delete',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                  color: Colors.red)),
+                                        ),
+                                      ],
+                                      cancelButton: CupertinoActionSheetAction(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Cancel',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                                color: Colors.blue)),
+                                      ),
+                                    ),
+                                  );
                                 },
-                                icon: Icon(Icons.delete)),
+                                icon: Icon(Icons.delete_outline,
+                                    color: Colors.white)),
                           ],
                         ),
                       )
