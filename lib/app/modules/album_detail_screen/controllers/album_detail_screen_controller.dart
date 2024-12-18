@@ -278,19 +278,14 @@ class AlbumDetailScreenController extends GetxController {
 }
 
 String formatDuration(int milliseconds) {
-  // Convert milliseconds to total seconds
   final int totalSeconds = milliseconds ~/ 1000;
-
-  // Calculate hours, minutes, and seconds
   final int hours = totalSeconds ~/ 3600;
   final int minutes = (totalSeconds % 3600) ~/ 60;
   final int seconds = totalSeconds % 60;
 
   if (hours > 0) {
-    // Format as hh:mm if the duration is more than an hour
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   } else {
-    // Format as mm:ss if the duration is less than an hour
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 }

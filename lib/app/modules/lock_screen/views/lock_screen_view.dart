@@ -57,7 +57,8 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                     if (controller
                                             .authBioMetricWidget.supportState ==
                                         SupportState.unSupported) {
-                                      toastMessage(message: "Biometric not supported");
+                                      toastMessage(
+                                          message: "Biometric not supported");
                                     } else {
                                       if (controller
                                               .authBioMetricWidget
