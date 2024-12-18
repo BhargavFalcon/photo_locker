@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:photo_locker/adService/banner_ads.dart';
+import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

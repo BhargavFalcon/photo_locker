@@ -23,9 +23,12 @@ class _BannerAdsWidgetState extends State<BannerAdsWidget> {
     box.listenKey(
       ArgumentConstants.isAdRemoved,
       (value) {
-        setState(() {
-          isAdRemoved = value ?? false;
-        });
+        if (mounted) {
+          setState(() {
+            isAdRemoved = value ?? false;
+            print("isAdRemoved : $isAdRemoved");
+          });
+        }
       },
     );
     loadBannerAd();
@@ -50,6 +53,8 @@ class _BannerAdsWidgetState extends State<BannerAdsWidget> {
 
   void loadBannerAd() async {
     var size = await anchoredAdaptiveBannerAdSize();
+    if (!mounted) return;
+
     bannerAd = BannerAd(
       adUnitId: (Platform.isIOS)
           ? "ca-app-pub-3940256099942544/2435281174"
@@ -57,6 +62,7 @@ class _BannerAdsWidgetState extends State<BannerAdsWidget> {
       size: size ?? AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
+          if (!mounted) return; // Ensure widget is still in the tree
           print("Banner Ad Loaded");
           setState(() {
             isBannerAdLoaded = true;
@@ -64,9 +70,11 @@ class _BannerAdsWidgetState extends State<BannerAdsWidget> {
         },
         onAdFailedToLoad: (ad, error) {
           print("Banner Failed to Load : ${error.message}");
-          bannerAd!.dispose();
+          ad.dispose();
           Future.delayed(Duration(seconds: 5), () {
-            loadBannerAd();
+            if (mounted) {
+              loadBannerAd(); // Retry only if widget is still mounted
+            }
           });
         },
       ),
@@ -77,7 +85,7 @@ class _BannerAdsWidgetState extends State<BannerAdsWidget> {
 
   @override
   void dispose() {
-    bannerAd!.dispose();
+    bannerAd?.dispose(); // Ensure null safety
     super.dispose();
   }
 }

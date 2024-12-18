@@ -9,6 +9,7 @@ import 'package:photo_locker/app/service/inAppPurchase.dart';
 import 'package:photo_locker/constants/auth_bio_metric_widget.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
+import 'package:photo_locker/main.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../routes/app_pages.dart';
