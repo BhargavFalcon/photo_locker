@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pattern_lock/pattern_lock.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:photo_locker/adService/banner_ads.dart';
 import 'package:photo_locker/app/routes/app_pages.dart';
 import 'package:photo_locker/constants/auth_bio_metric_widget.dart';
 import 'package:photo_locker/constants/progress_dialog_utils.dart';
@@ -109,7 +110,13 @@ class ChangePasscodeScreenView
               Divider(),
             ],
           ),
-        ));
+        ),
+      bottomNavigationBar: Container(
+        padding:
+        EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: BannerAdsWidget(),
+      ),
+    );
   }
 
   pinCodeWidget(
@@ -398,7 +405,8 @@ class ChangePasscodeScreenView
               ),
             ),
           );
-        });
+        },
+        );
       },
     );
   }

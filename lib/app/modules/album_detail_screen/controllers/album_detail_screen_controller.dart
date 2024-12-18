@@ -113,6 +113,7 @@ class AlbumDetailScreenController extends GetxController {
                           IconButton(
                             icon: Icon(Icons.check, color: Colors.white),
                             onPressed: () async {
+                              showCircularDialog(context);
                               Directory directory =
                                   await getApplicationCacheDirectory();
                               List<Medium> selectedMedia = [];
@@ -175,6 +176,7 @@ class AlbumDetailScreenController extends GetxController {
                                       .toList();
                               Get.back();
                               Get.back();
+                              hideCircularDialog(context);
                               PhotoGalleryFlutter.deleteMedium(
                                   mediumToDelete: mediumToDelete);
                             },
@@ -199,11 +201,14 @@ class AlbumDetailScreenController extends GetxController {
                                 selectedIndexes.remove(index);
                               } else {
                                 totalLength.value = totalLength.value + 1;
-                                if (totalLength.value > 10) {
-                                  toastMessage(
-                                      message:
-                                          "Max 10 Photos or videos allowed into free version");
-                                  return;
+                                if (isNullEmptyOrFalse(
+                                    box.read(ArgumentConstants.isAdRemoved))) {
+                                  if (totalLength.value > 10) {
+                                    toastMessage(
+                                        message:
+                                            "Max 10 Photos or videos allowed into free version");
+                                    return;
+                                  }
                                 }
                                 selectedIndexes.add(index);
                               }

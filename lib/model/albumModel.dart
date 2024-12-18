@@ -1,4 +1,3 @@
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
 import 'package:video_player/video_player.dart';
 
@@ -35,7 +34,6 @@ class ImageAlbumModel {
   String? thumbnail;
   MediumType? mediumType;
   VideoPlayerController? videoPlayerController;
-  FlickManager? flickManager;
   int? duration;
 
   ImageAlbumModel(
@@ -44,7 +42,6 @@ class ImageAlbumModel {
       this.thumbnail,
       this.mediumType,
       this.videoPlayerController,
-      this.flickManager,
       this.duration});
 
   ImageAlbumModel.fromJson(Map<String, dynamic> json) {

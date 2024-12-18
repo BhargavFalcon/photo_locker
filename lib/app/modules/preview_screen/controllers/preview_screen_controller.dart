@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
@@ -15,7 +14,6 @@ class PreviewScreenController extends GetxController {
   RxInt currentIndex = 0.obs;
   RxBool isHide = false.obs;
   RxBool isPlaying = true.obs;
-  late FlickManager flickManager;
   late PageController pageController;
   RxDouble sliderValue = 0.0.obs;
 

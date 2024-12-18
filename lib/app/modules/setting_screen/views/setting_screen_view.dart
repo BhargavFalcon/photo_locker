@@ -1,17 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:pattern_lock/pattern_lock.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:photo_locker/adService/banner_ads.dart';
+import 'package:photo_locker/app/service/inAppPurchase.dart';
 import 'package:photo_locker/constants/auth_bio_metric_widget.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../routes/app_pages.dart';
 import '../controllers/setting_screen_controller.dart';
 
@@ -33,9 +32,15 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
         ),
         title: const Text('Settings', style: TextStyle(color: Colors.white)),
         actions: [
-          Text(
-            'Restore',
-            style: TextStyle(color: Colors.white, fontSize: 16),
+          InkWell(
+            onTap: () {
+              showCircularDialog(context);
+              InAppPurchaseClass.getInstance.restorePurchases();
+            },
+            child: Text(
+              'Restore',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
           ),
           SizedBox(
             width: 10,
@@ -51,7 +56,12 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
               height: 20,
             ),
             settingWidget(
-              onTap: () {},
+              onTap: () {
+                showCircularDialog(context);
+                InAppPurchaseClass.getInstance.makePurchase(
+                    productId:
+                        InAppPurchaseClass.getInstance.products.first.id);
+              },
               context: context,
               image: ImageConstant.premium,
               widget: Column(
@@ -189,6 +199,10 @@ class SettingScreenView extends GetWidget<SettingScreenController> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: BannerAdsWidget(),
       ),
     );
   }

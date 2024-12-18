@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:get/get.dart';
+import 'package:photo_locker/adService/banner_ads.dart';
 import 'package:photo_locker/app/modules/album_detail_screen/controllers/album_detail_screen_controller.dart';
 import 'package:photo_locker/app/modules/albums_screen/controllers/albums_screen_controller.dart';
 import 'package:photo_locker/app/modules/preview_screen/controllers/preview_screen_controller.dart';
@@ -13,8 +13,6 @@ import 'package:photo_locker/main.dart';
 import 'package:photo_locker/model/albumModel.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:smooth_video_progress/smooth_video_progress.dart';
-import 'package:video_player/video_player.dart';
-
 import '../../../../constants/stringConstants.dart';
 
 class PreviewScreenView extends GetWidget<PreviewScreenController> {
@@ -34,12 +32,12 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                 controller: controller.pageController,
                 itemCount: controller.previewList.length,
                 onPageChanged: (index) {
-                  controller.previewList[controller.currentIndex.value]
-                      .videoPlayerController!
-                      .pause();
+                  if (controller.previewType.value == 'video') {
+                    controller.previewList[controller.currentIndex.value]
+                        .videoPlayerController!
+                        .pause();
+                  }
                   controller.currentIndex.value = index;
-                  ImageAlbumModel imageAlbumModel =
-                      controller.previewList[index];
                   if (controller.previewType.value == 'video') {
                     controller.isPlaying.value = true;
                   }
@@ -49,7 +47,7 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                       controller.previewList[index];
                   return InkWell(
                       onTap: () {
-                        controller.isHide.value = !controller.isHide.value;
+                        controller.isHide.toggle();
                       },
                       child: (controller.previewType.value == 'image')
                           ? Image.file(
@@ -62,8 +60,8 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                             )
                           : Stack(
                               children: [
-                                VideoView(item: imageAlbumModel),
-                                (!controller.isHide.value)
+                                VideoView(item: controller.previewList[index]),
+                                (controller.isHide.value == true)
                                     ? SizedBox()
                                     : Positioned(
                                         bottom: 90,
@@ -181,7 +179,7 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
               ),
             ),
             // AppBar and controls
-            (!controller.isHide.value)
+            (controller.isHide.value == true)
                 ? SizedBox()
                 : Column(
                     children: [
@@ -415,8 +413,23 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                                     'Image Deleted Successfully');
                                             controller.previewList
                                                 .removeAt(index);
+                                            if (controller.previewType.value ==
+                                                'video') {
+                                              controller
+                                                  .previewList[controller
+                                                      .currentIndex.value]
+                                                  .videoPlayerController!
+                                                  .pause();
+                                            }
+                                            controller.currentIndex.value =
+                                                index;
+                                            if (controller.previewType.value ==
+                                                'video') {
+                                              controller.isPlaying.value = true;
+                                            }
                                             if (controller.previewList.length ==
                                                 0) {
+                                              Get.back();
                                               Get.back();
                                               return;
                                             }
@@ -450,6 +463,11 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                     ],
                   ),
           ],
+        ),
+        bottomNavigationBar: Container(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          child: BannerAdsWidget(),
         ),
       );
     });

@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_locker/model/albumModel.dart';
 import 'package:video_player/video_player.dart';
-
-import '../../../../constants/sizeConstant.dart';
 
 class VideoView extends StatefulWidget {
   final ImageAlbumModel item;
@@ -18,7 +14,6 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> {
-
   late VideoPlayerController videoPlayerController;
   bool isMuted = false;
   List likeList = [];
@@ -31,7 +26,6 @@ class _VideoViewState extends State<VideoView> {
   }
 
   void initializePlayer() {
-
     widget.item.videoPlayerController = VideoPlayerController.file(
       File(widget.item.imagePath!),
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
@@ -46,10 +40,7 @@ class _VideoViewState extends State<VideoView> {
       if (mounted) {
         setState(() {});
         widget.item.videoPlayerController!.play();
-
-
         widget.item.videoPlayerController!.addListener(() {
-
           widget.item.videoPlayerController!.position.then((value) {
             if (mounted && value!.inSeconds == 0) {
               widget.item.videoPlayerController!.play();
@@ -70,13 +61,16 @@ class _VideoViewState extends State<VideoView> {
     super.dispose();
     if (widget.item.videoPlayerController != null) {
       await widget.item.videoPlayerController!.dispose();
-      widget.item.videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(""));
+      widget.item.videoPlayerController =
+          VideoPlayerController.networkUrl(Uri.parse(""));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return (widget.item.videoPlayerController == null)?CircularProgressIndicator(): VideoPlayer(widget.item.videoPlayerController!);
+    return (widget.item.videoPlayerController == null)
+        ? CircularProgressIndicator()
+        : VideoPlayer(widget.item.videoPlayerController!);
   }
 
   void simulateProgress(ValueNotifier<double> progressNotifier) {

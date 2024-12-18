@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
+import 'package:photo_locker/adService/banner_ads.dart';
 import 'package:photo_locker/app/routes/app_pages.dart';
 import 'package:photo_locker/constants/sizeConstant.dart';
 import 'package:photo_locker/constants/stringConstants.dart';
@@ -223,9 +224,12 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
               ? null
               : () {
                   controller.albumController.value.clear();
-                  if (controller.albumList.length >= 1) {
-                    unlockWidget(context: context);
-                    return;
+                  if (isNullEmptyOrFalse(
+                      box.read(ArgumentConstants.isAdRemoved))) {
+                    if (controller.albumList.length >= 1) {
+                      unlockWidget(context: context);
+                      return;
+                    }
                   }
                   albumWidget(
                     context: context,
@@ -233,6 +237,11 @@ class AlbumsScreenView extends GetWidget<AlbumsScreenController> {
                   );
                 },
           child: const Icon(Icons.add, color: Colors.white),
+        ),
+        bottomNavigationBar: Container(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          child: BannerAdsWidget(),
         ),
       );
     });

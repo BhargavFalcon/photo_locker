@@ -29,7 +29,7 @@ class InAppPurchaseClass {
   static List<String> _kProductIds = <String>[
     (Platform.isAndroid)
         ? "com.falcon.easyrecipes.removeAds"
-        : "com.rohit.easyrecipes.removeAds"
+        : "com.rohit.photolocker.all"
   ];
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_gallery_flutter/photo_gallery_flutter.dart';
+import 'package:photo_locker/adService/banner_ads.dart';
 import 'package:photo_locker/app/modules/albums_screen/controllers/albums_screen_controller.dart';
 import 'package:photo_locker/app/routes/app_pages.dart';
 import 'package:photo_locker/constants/CameraService.dart';
@@ -379,7 +380,14 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                       },
                     ),
                   ],
-                )),
+                ),
+              bottomNavigationBar: Container(
+                padding:
+                EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                child: BannerAdsWidget(),
+              ),
+            ),
+
           );
         });
       },
