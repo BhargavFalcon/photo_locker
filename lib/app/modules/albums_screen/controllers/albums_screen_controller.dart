@@ -12,9 +12,9 @@ class AlbumsScreenController extends GetxController {
   @override
   void onInit() {
     if (!isNullEmptyOrFalse(box.read(ArgumentConstants.albumList))) {
-      albumList.value = (box.read(ArgumentConstants.albumList) as List)
-          .map((e) => AlbumModel.fromJson(e))
-          .toList();
+      box.read(ArgumentConstants.albumList).forEach((element) {
+        albumList.add(AlbumModel.fromJson(element));
+      });
     }
     super.onInit();
   }

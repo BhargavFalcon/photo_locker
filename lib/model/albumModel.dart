@@ -11,12 +11,14 @@ class AlbumModel {
   AlbumModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     albumName = json['albumName'];
-    if (json['albumImagesList'] != null) {
-      albumImagesList = <ImageAlbumModel>[];
-      json['albumImagesList'].forEach((v) {
-        albumImagesList!.add(new ImageAlbumModel.fromJson(v));
-      });
-    }
+    albumImagesList = (json['albumImagesList'] as List?)?.map((item) {
+      if (item is Map<String, dynamic>) {
+        return ImageAlbumModel.fromJson(item);
+      } else if (item is ImageAlbumModel) {
+        return item;
+      }
+      throw Exception("Invalid type in albumImagesList: $item");
+    }).toList();
   }
 
   Map<String, dynamic> toJson() {
