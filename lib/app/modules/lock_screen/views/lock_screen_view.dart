@@ -25,7 +25,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(ImageConstant.Splash),
+              image: AssetImage(ImageConstant.lockScreen),
               fit: BoxFit.cover,
             ),
           ),

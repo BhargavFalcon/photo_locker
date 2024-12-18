@@ -45,6 +45,7 @@ class ImageConstant {
 
   static const String Splash = "${splashPath}Splash_X.png";
   static const String bg = "${assetsPath}Bg.png";
+  static const String lockScreen = "${assetsPath}lockScreen.png";
   static const String appLogo = "${assetsPath}App_Logo.png";
   static const String albumDemo = "${homePath}Album_Demo.png";
   static const String minus = "${homePath}Minus.png";
