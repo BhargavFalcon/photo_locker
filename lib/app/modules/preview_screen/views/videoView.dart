@@ -72,14 +72,4 @@ class _VideoViewState extends State<VideoView> {
         ? CircularProgressIndicator()
         : VideoPlayer(widget.item.videoPlayerController!);
   }
-
-  void simulateProgress(ValueNotifier<double> progressNotifier) {
-    Timer.periodic(Duration(milliseconds: 100), (timer) {
-      if (progressNotifier.value >= 1.0) {
-        timer.cancel();
-      } else {
-        progressNotifier.value += 0.05;
-      }
-    });
-  }
 }
