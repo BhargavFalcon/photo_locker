@@ -413,20 +413,6 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                                     'Image Deleted Successfully');
                                             controller.previewList
                                                 .removeAt(index);
-                                            if (controller.previewType.value ==
-                                                'video') {
-                                              controller
-                                                  .previewList[controller
-                                                      .currentIndex.value]
-                                                  .videoPlayerController!
-                                                  .pause();
-                                            }
-                                            controller.currentIndex.value =
-                                                index;
-                                            if (controller.previewType.value ==
-                                                'video') {
-                                              controller.isPlaying.value = true;
-                                            }
                                             if (controller.previewList.length ==
                                                 0) {
                                               Get.back();
