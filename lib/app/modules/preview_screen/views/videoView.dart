@@ -14,9 +14,7 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> {
-  late VideoPlayerController videoPlayerController;
   bool isMuted = false;
-  List likeList = [];
   bool isVideoInit = false;
 
   @override
