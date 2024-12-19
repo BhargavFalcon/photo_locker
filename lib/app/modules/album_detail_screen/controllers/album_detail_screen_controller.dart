@@ -176,7 +176,6 @@ class AlbumDetailScreenController extends GetxController {
                                           MediumToDelete(e.id, e.mediumType))
                                       .toList();
                               Get.back();
-                              Get.back();
                               PhotoGalleryFlutter.deleteMedium(
                                   mediumToDelete: mediumToDelete);
                             },
