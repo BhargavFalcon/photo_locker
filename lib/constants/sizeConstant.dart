@@ -289,8 +289,7 @@ class CircularDialog {
 
 toastMessage({required String message}) {
   Fluttertoast.showToast(
-      msg:
-      "$message",
+      msg: "$message",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 2,

@@ -28,7 +28,7 @@ class InAppPurchaseClass {
 
   static List<String> _kProductIds = <String>[
     (Platform.isAndroid)
-        ? "com.falcon.easyrecipes.removeAds"
+        ? "com.falcon.photolocker.all"
         : "com.rohit.photolocker.all"
   ];
 
