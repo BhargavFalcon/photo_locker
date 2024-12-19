@@ -167,6 +167,7 @@ class AlbumDetailScreenController extends GetxController {
                                           .toList());
                                 }
                                 update();
+                                hideCircularDialog(context);
                               });
                               await Future.delayed(Duration(seconds: 1));
                               List<MediumToDelete> mediumToDelete =
@@ -176,7 +177,6 @@ class AlbumDetailScreenController extends GetxController {
                                       .toList();
                               Get.back();
                               Get.back();
-                              hideCircularDialog(context);
                               PhotoGalleryFlutter.deleteMedium(
                                   mediumToDelete: mediumToDelete);
                             },

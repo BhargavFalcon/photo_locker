@@ -28,6 +28,7 @@ class _VideoViewState extends State<VideoView> {
       File(widget.item.imagePath!),
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     );
+print("videoPath: ${widget.item.toJson()}");
 
     isVideoInit = true;
     if (mounted) {

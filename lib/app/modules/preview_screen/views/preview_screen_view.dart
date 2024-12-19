@@ -32,11 +32,6 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                 controller: controller.pageController,
                 itemCount: controller.previewList.length,
                 onPageChanged: (index) {
-                  if (controller.previewType.value == 'video') {
-                    controller.previewList[controller.currentIndex.value]
-                        .videoPlayerController!
-                        .pause();
-                  }
                   controller.currentIndex.value = index;
                   if (controller.previewType.value == 'video') {
                     controller.isPlaying.value = true;
@@ -343,6 +338,20 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                           onPressed: () {
                                             int index =
                                                 controller.currentIndex.value;
+                                            if (controller
+                                                .pageController.keepPage) {
+                                              controller.pageController
+                                                  .nextPage(
+                                                      duration: Duration(
+                                                          milliseconds: 300),
+                                                      curve: Curves.easeIn);
+                                            } else {
+                                              controller.pageController
+                                                  .previousPage(
+                                                      duration: Duration(
+                                                          milliseconds: 300),
+                                                      curve: Curves.easeIn);
+                                            }
                                             controller.update();
                                             if (Get.isRegistered<
                                                 AlbumDetailScreenController>()) {
@@ -402,19 +411,6 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                               albumsScreenController.albumList
                                                   .refresh();
                                               albumsScreenController.update();
-                                            }
-                                            if (controller
-                                                    .pageController.page ==
-                                                controller.previewList.length -
-                                                    1) {
-                                              controller.currentIndex.value =
-                                                  controller
-                                                          .previewList.length -
-                                                      2;
-                                              controller.pageController
-                                                  .jumpToPage(controller
-                                                          .previewList.length -
-                                                      2);
                                             }
                                             toastMessage(
                                                 message:
