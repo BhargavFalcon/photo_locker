@@ -12,7 +12,7 @@ class PreviewScreenController extends GetxController {
   Rx<AlbumModel> albumModel = AlbumModel().obs;
   RxString previewType = ''.obs;
   RxInt currentIndex = 0.obs;
-  RxBool isHide = false.obs;
+  RxBool isHide = true.obs;
   RxBool isPlaying = true.obs;
   late PageController pageController;
   RxDouble sliderValue = 0.0.obs;

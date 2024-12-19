@@ -39,11 +39,11 @@ class _VideoViewState extends State<VideoView> {
     widget.item.videoPlayerController!.initialize().then((_) {
       if (mounted) {
         setState(() {});
-        widget.item.videoPlayerController!.play();
-        widget.item.videoPlayerController!.addListener(() {
-          widget.item.videoPlayerController!.position.then((value) {
+        widget.item.videoPlayerController?.play();
+        widget.item.videoPlayerController?.addListener(() {
+          widget.item.videoPlayerController?.position.then((value) {
             if (mounted && value!.inSeconds == 0) {
-              widget.item.videoPlayerController!.play();
+              widget.item.videoPlayerController?.play();
             }
             if (mounted) {
               setState(() {});
@@ -69,7 +69,7 @@ class _VideoViewState extends State<VideoView> {
   @override
   Widget build(BuildContext context) {
     return (widget.item.videoPlayerController == null)
-        ? CircularProgressIndicator()
+        ? Center(child: CircularProgressIndicator())
         : VideoPlayer(widget.item.videoPlayerController!);
   }
 }

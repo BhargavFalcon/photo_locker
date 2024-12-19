@@ -32,7 +32,6 @@ class ArgumentConstants {
   static const isSkip = "isSkip";
   static const isFirstTime = "isFirstTime";
   static const isAdRemoved = "isAdRemoved";
-
 }
 
 class ImageConstant {
@@ -42,6 +41,7 @@ class ImageConstant {
   static const String detailsScreenPath = "assets/Detail Screen/";
   static const String settingsPath = "assets/Settings/";
   static const String helpPath = "assets/Help/";
+  static const String previewPath = "assets/Asset Preview/";
 
   static const String Splash = "${splashPath}Splash_X.png";
   static const String bg = "${assetsPath}Bg.png";
@@ -66,4 +66,11 @@ class ImageConstant {
   static const String help_3 = "${helpPath}Help_3.png";
   static const String help_4 = "${helpPath}Help_4.png";
   static const String blue_back = "${helpPath}Back_Blue.png";
+  static const String delete = "${previewPath}Delete.png";
+  static const String shareIcon = "${previewPath}Share_Bottom.png";
+  static const String previous = "${previewPath}Prev.png";
+  static const String next = "${previewPath}Next.png";
+  static const String play = "${previewPath}Play.png";
+  static const String pause = "${previewPath}Pause.png";
+  static const String restore = "${detailsScreenPath}Restore.png";
 }

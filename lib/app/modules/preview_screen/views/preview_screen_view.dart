@@ -64,7 +64,7 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                 (controller.isHide.value == true)
                                     ? SizedBox()
                                     : Positioned(
-                                        bottom: 90,
+                                        bottom: 75,
                                         child: (imageAlbumModel
                                                     .videoPlayerController ==
                                                 null)
@@ -206,53 +206,58 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                         ),
                         centerTitle: true,
                         actions: [
-                          IconButton(
-                            onPressed: () {
-                              if (controller.previewType.value == 'image') {
-                                GallerySaver.saveImage(
-                                  controller
-                                      .previewList[
-                                          controller.currentIndex.value]
-                                      .imagePath!,
-                                ).then(
-                                  (value) {
-                                    if (value == true) {
-                                      toastMessage(
-                                          message:
-                                              "Image restored to Photos App");
-                                    }
-                                  },
-                                );
-                              } else {
-                                GallerySaver.saveVideo(
-                                  controller
-                                      .previewList[
-                                          controller.currentIndex.value]
-                                      .imagePath!,
-                                ).then(
-                                  (value) {
-                                    if (value == true) {
-                                      toastMessage(
-                                          message:
-                                              "Video restored to Photos App");
-                                    }
-                                  },
-                                );
-                              }
-                            },
-                            icon: Icon(Icons.loop, color: Colors.white),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: InkWell(
+                              onTap: () {
+                                if (controller.previewType.value == 'image') {
+                                  GallerySaver.saveImage(
+                                    controller
+                                        .previewList[
+                                            controller.currentIndex.value]
+                                        .imagePath!,
+                                  ).then(
+                                    (value) {
+                                      if (value == true) {
+                                        toastMessage(
+                                            message:
+                                                "Image restored to Photos App");
+                                      }
+                                    },
+                                  );
+                                } else {
+                                  GallerySaver.saveVideo(
+                                    controller
+                                        .previewList[
+                                            controller.currentIndex.value]
+                                        .imagePath!,
+                                  ).then(
+                                    (value) {
+                                      if (value == true) {
+                                        toastMessage(
+                                            message:
+                                                "Video restored to Photos App");
+                                      }
+                                    },
+                                  );
+                                }
+                              },
+                              child: Image.asset(ImageConstant.restore,
+                                  color: Colors.white, height: 40),
+                            ),
                           ),
                         ],
                       ),
                       Spacer(),
                       Container(
                         color: Colors.blue,
-                        height: 80,
+                        height: 60,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            IconButton(
-                                onPressed: () {
+                            InkWell(
+                                onTap: () {
                                   Share.shareXFiles(
                                     [
                                       XFile(controller
@@ -262,10 +267,10 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                     ],
                                   );
                                 },
-                                icon:
-                                    Icon(Icons.ios_share, color: Colors.white)),
-                            IconButton(
-                              onPressed: (controller.currentIndex.value != 0)
+                                child: Image.asset(ImageConstant.shareIcon,
+                                    height: 35)),
+                            InkWell(
+                              onTap: (controller.currentIndex.value != 0)
                                   ? () {
                                       controller.pageController.previousPage(
                                         duration: Duration(milliseconds: 300),
@@ -273,7 +278,8 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                       );
                                     }
                                   : null,
-                              icon: Icon(Icons.arrow_back,
+                              child: Image.asset(ImageConstant.previous,
+                                  height: 35,
                                   color: (controller.currentIndex.value != 0)
                                       ? Colors.white
                                       : Colors.white.withOpacity(0.5)),
@@ -296,16 +302,17 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                     controller.update();
                                   }
                                 },
-                                child: Icon(
+                                child: Image.asset(
                                   controller.isPlaying.isTrue
-                                      ? Icons.pause
-                                      : Icons.play_arrow,
+                                      ? ImageConstant.pause
+                                      : ImageConstant.play,
+                                  height: 35,
                                   color: Colors.white,
                                 ),
                               ),
                             ],
-                            IconButton(
-                              onPressed: (controller.currentIndex.value !=
+                            InkWell(
+                              onTap: (controller.currentIndex.value !=
                                       controller.previewList.length - 1)
                                   ? () {
                                       controller.pageController.nextPage(
@@ -314,14 +321,15 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                       );
                                     }
                                   : null,
-                              icon: Icon(Icons.arrow_forward,
+                              child: Image.asset(ImageConstant.next,
+                                  height: 35,
                                   color: (controller.currentIndex.value !=
                                           controller.previewList.length - 1)
                                       ? Colors.white
                                       : Colors.white.withOpacity(0.5)),
                             ),
-                            IconButton(
-                                onPressed: () {
+                            InkWell(
+                                onTap: () {
                                   showCupertinoModalPopup(
                                     barrierDismissible: true,
                                     context: context,
@@ -441,8 +449,11 @@ class PreviewScreenView extends GetWidget<PreviewScreenController> {
                                     ),
                                   );
                                 },
-                                icon: Icon(Icons.delete_outline,
-                                    color: Colors.white)),
+                                child: Image.asset(
+                                  ImageConstant.delete,
+                                  height: 35,
+                                  color: Colors.white,
+                                )),
                           ],
                         ),
                       )
