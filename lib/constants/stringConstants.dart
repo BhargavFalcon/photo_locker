@@ -18,7 +18,7 @@ class PrefConstant {
       : "ca-app-pub-3510832308267643/6553015344";
 
   static String shareText =
-      "Keep secure your photos & videos with Photo Locker,Download now ${(Platform.isAndroid) ? "https://play.google.com/store/apps/details?id=com.falconapps.loveshayari" : "https://itunes.apple.com/us/app/id1343665010?ls=1&mt=8"}";
+      "Keep secure your photos & videos with Photo Locker,Download now ${(Platform.isAndroid) ? "https://play.google.com/store/apps/details?id=com.falcon.photolocker" : "https://itunes.apple.com/us/app/id1343665010?ls=1&mt=8"}";
 }
 
 class ArgumentConstants {

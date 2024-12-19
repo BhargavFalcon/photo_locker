@@ -1,4 +1,4 @@
-package com.example.photo_locker
+package com.falcon.photolocker
 
 import io.flutter.embedding.android.FlutterActivity
 
