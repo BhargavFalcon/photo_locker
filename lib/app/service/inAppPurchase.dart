@@ -270,11 +270,6 @@ class InAppPurchaseClass {
       (value) {
         print("Restore => true");
         hideCircularDialog(Get.context!);
-        showCupertinoDialogBox(
-          Get.context!,
-          title: "Restore",
-          message: "Restore successful",
-        );
       },
     ).catchError((error) {
       print("Restore => false");

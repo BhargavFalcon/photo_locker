@@ -58,7 +58,7 @@ class _BannerAdsWidgetState extends State<BannerAdsWidget> {
     bannerAd = BannerAd(
       adUnitId: (Platform.isIOS)
           ? "ca-app-pub-3113322998231310/4653279933"
-          : "ca-app-pub-3940256099942544/9214589741",
+          : "ca-app-pub-3113322998231310/7311024168",
       size: size ?? AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {

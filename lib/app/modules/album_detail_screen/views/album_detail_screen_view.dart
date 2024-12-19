@@ -263,6 +263,7 @@ class AlbumDetailScreenView extends GetWidget<AlbumDetailScreenController> {
                                     controller.update();
                                   }
                                 });
+                                Navigator.pop(context);
                               },
                               child: Text('Photo',
                                   style: TextStyle(
